@@ -1,16 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace FFanim {
-
-public class Base {
+public class FFaniAnimation {
 
 	public float currentTime = 0.0f;
 	// Use this for initialization
 	public void start () {
 		currentTime = 0.0f;
 		onStart();
-		FFAnimManager.instance().play(this);
+		FFaniManager.instance().play(this);
 	}
 	
 	virtual protected void onStart() {
@@ -31,6 +29,4 @@ public class Base {
 	virtual protected void onUpdate(float delta) {
 		Debug.Log ("onUpdate");
 	}
-}
-
 }

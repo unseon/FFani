@@ -3,7 +3,7 @@ using System.Collections;
 using System.Reflection;
 using System;
 
-public class FFAnimPP : FFBaseAnimation {
+public class FFAnimPP : FFaniAnimation {
 	
 	public GameObject target;
 	public string componentName;
