@@ -24,6 +24,8 @@ public class TestQAnimation : MonoBehaviour {
 		anim.targetComponent = GameObject.Find ("Cube").transform;
 		anim.propertyName = "position.x";
 		anim.valueTo = 5.0f;
+		
+		//anim.valueTo = new Vector3(5.0f, 0, 0);
 		anim.duration = 1.0f;
 		
 		anim.start();
