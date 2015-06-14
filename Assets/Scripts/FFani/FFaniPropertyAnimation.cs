@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System;
 
-public class FFaniProperty : FFaniAnimation {
+public class FFaniPropertyAnimation : FFaniAnimation {
 
 	public Component targetComponent;
 	public string propertyName;
@@ -64,11 +64,11 @@ public class FFaniProperty : FFaniAnimation {
 		return getTargetMember (target, new List<string>(memberName.Split('.')));
 	}
 	
-	static FFaniMember getTargetMember(object target, List<string> names) {
+	static FFaniMember getTargetMember(object target, List<string> names, object reflectedObject = null) {
 		MemberInfo mi = target.GetType ().GetMember(names[0])[0];
 		
 		if (names.Count == 1) {
-			return new FFaniMember(mi, target);
+			return new FFaniMember(mi, target, null);
 		}
 		
 		names.RemoveAt(0);
@@ -76,11 +76,11 @@ public class FFaniProperty : FFaniAnimation {
 		if (mi.MemberType == MemberTypes.Property) {
 			PropertyInfo pi = (PropertyInfo)mi;
 			object t = pi.GetValue(target, null);
-			return getTargetMember (t, names);
+			return getTargetMember (t, names, target);
 		} else if (mi.MemberType == MemberTypes.Field) {
 			FieldInfo fi = (FieldInfo)mi;
 			object t = fi.GetValue(target);
-			return getTargetMember (t, names);
+			return getTargetMember (t, names, target);
 		} else {
 			return null;
 		}
@@ -138,6 +138,33 @@ public class FFaniProperty : FFaniAnimation {
 			
 			Vector3 newValue = Vector3.Lerp (vFrom, vTo, t);
 			member.setValue(newValue);
+		} else if (member.reflectedObject.GetType () == typeof(Vector3)) {
+			// change the member value but keep others
+			Vector3 newValue = new Vector3();
+			Vector3 value = (Vector3)member.reflectedObject;
+			
+			if (member.memberInfo.Name == "x") {
+				float vTo = valueTo != null ? Convert.ToSingle (valueTo) : value.x;
+				float vFrom = valueFrom != null ? Convert.ToSingle (valueFrom) : value.x;
+				
+				float newX =  vTo * t + vFrom * (1.0f - t);
+				newValue = new Vector3(newX, value.y, value.z);
+			} else if (member.memberInfo.Name == "y") {
+				float vTo = valueTo != null ? Convert.ToSingle (valueTo) : value.y;
+				float vFrom = valueFrom != null ? Convert.ToSingle (valueFrom) : value.y;
+				
+				float newY =  vTo * t + vFrom * (1.0f - t);
+				newValue = new Vector3(value.x, newY, value.z);
+			} else if (member.memberInfo.Name == "z") {
+				float vTo = valueTo != null ? Convert.ToSingle (valueTo) : value.z;
+				float vFrom = valueFrom != null ? Convert.ToSingle (valueFrom) : value.z;
+				
+				float newZ =  vTo * t + vFrom * (1.0f - t);
+				newValue = new Vector3(value.x, value.y, newZ);
+			}
+			
+			
+			value.Set(newValue.x, newValue.y, newValue.z);			
 		}
 	}
 }

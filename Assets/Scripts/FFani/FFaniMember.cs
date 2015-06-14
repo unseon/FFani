@@ -5,9 +5,15 @@ public class FFaniMember {
 	public MemberInfo memberInfo;
 	public object reflectedObject;
 	
-	public FFaniMember(MemberInfo memberInfo, object reflectedObject) {
+	public MemberInfo reflectedObjectInfo;
+	public object rereflectedObject;
+	
+	public FFaniMember(MemberInfo memberInfo, object reflectedObject, MemberInfo reflectedObjectInfo = null, object rereflectedObject = null) {
 		this.memberInfo = memberInfo;
 		this.reflectedObject = reflectedObject;
+		
+		this.reflectedObjectInfo = reflectedObjectInfo;
+		this.rereflectedObject = rereflectedObject;
 	}
 	
 	public Type getType() {
