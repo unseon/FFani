@@ -3,6 +3,10 @@ using System;
 using System.Reflection;
 
 public class FFaniProperty {
+	public FFaniMember member;
+	public FFaniMember owner;
+
+
 	public MemberInfo memberInfo;
 	public MemberInfo assigneeInfo;
 	public object reflectedObject;
@@ -10,10 +14,8 @@ public class FFaniProperty {
 	public FFaniProperty(MemberInfo memberInfo, object reflectedObject, MemberInfo assigneeInfo = null) {
 		this.memberInfo = memberInfo;
 		this.reflectedObject = reflectedObject;
-		this.assigneeInfo = assigneeInfo;		
+		this.assigneeInfo = assigneeInfo;
 	}
-	
-	
 	
 	public Type getType() {
 		if (memberInfo.MemberType == MemberTypes.Property) {
@@ -29,7 +31,7 @@ public class FFaniProperty {
 		return null;
 	}
 	
-	public Type getAssigneeType() {
+	Type getAssigneeType() {
 		if (assigneeInfo.MemberType == MemberTypes.Property) {
 			PropertyInfo pi = (PropertyInfo)assigneeInfo;
 			
@@ -43,7 +45,7 @@ public class FFaniProperty {
 		return null;
 	}
 	
-	public object getAssignee() {
+	object getAssignee() {
 		if (assigneeInfo.MemberType == MemberTypes.Property) {
 			PropertyInfo pi = (PropertyInfo)assigneeInfo;
 			
@@ -57,18 +59,14 @@ public class FFaniProperty {
 		return null;
 	}
 	
-	public bool setValue(object value) {
+	public void setValue(object value) {
 		if (assigneeInfo == null) {
 			if (memberInfo.MemberType == MemberTypes.Property) {
 				PropertyInfo pi = (PropertyInfo)memberInfo;
 				pi.SetValue(reflectedObject, value, null);
-				
-				return true;
 			} else if (memberInfo.MemberType == MemberTypes.Field){
 				FieldInfo fi = (FieldInfo)memberInfo;
 				fi.SetValue(reflectedObject, value);
-				
-				return true;
 			}
 		} else {
 			object assignee = getAssignee();
@@ -88,15 +86,11 @@ public class FFaniProperty {
 			if (assigneeInfo.MemberType == MemberTypes.Property) {
 				PropertyInfo pi = (PropertyInfo)assigneeInfo;
 				pi.SetValue(reflectedObject, assignee, null);
-				return true;
 			} else if (assigneeInfo.MemberType == MemberTypes.Field){
 				FieldInfo fi = (FieldInfo)assigneeInfo;
 				fi.SetValue(reflectedObject, assignee);
-				return true;
 			}
 		}
-		
-		return false;
 	}
 	
 	public object getValue() {

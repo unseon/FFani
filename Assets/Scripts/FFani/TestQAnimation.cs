@@ -23,7 +23,7 @@ public class TestQAnimation : MonoBehaviour {
 		FFaniPropertyAnimation anim = new FFaniPropertyAnimation();
 		anim.targetComponent = GameObject.Find ("Cube").transform;
 		anim.propertyName = "position.x";
-		anim.valueTo = 5.0f;
+		anim.valueTo = 15.0f;
 		
 		//anim.valueTo = new Vector3(5.0f, 0, 0);
 		anim.duration = 1.0f;
