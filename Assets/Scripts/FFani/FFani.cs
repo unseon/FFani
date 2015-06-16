@@ -11,7 +11,7 @@ public class FFani {
 	}
 	
 	public static FFaniMember createMember(object target, string memberName) {
-		MemberInfo mi = target.GetType ().GetMember(memberName)[0];
+		MemberInfo mi = target.GetType().GetMember(memberName)[0];
 		
 		if (mi.MemberType == MemberTypes.Property) {
 			return new FFaniMemberFromProperty(target, mi);
@@ -22,71 +22,64 @@ public class FFani {
 		}
 	}
 	
-	public static FFaniMember createMember(FFaniMember member, string submemberName) {
+	public static FFaniComplexProperty createComplexProperty(FFaniMember member, string submemberName) {
 		object obj = member.getValue();
+		FFaniMember submember = createMember (obj, submemberName);
 		
-		return createMember (obj, submemberName);
+		if (member.getType() == typeof(Vector3)) {
+			return new FFaniVector3Submember(member, submember);
+		}
+		
+		return null;
+		
+		//return new FFaniComplexProperty(member, submember);
 	}
 	
-	public static FFaniMember createMember(FFaniMember member, List<string> names) {
+	public static FFaniMember getTargetMember(FFaniMember member, List<string> names) {
 		if (member.getType() == typeof(Vector3)) {
+			// if target name identifies a member of Vector3, create FFaniComplexProperty.
+		
 			if (names.Count != 1) {
+				// if the Vector3's member has its member, it's error.
 				return null;
 			}
-			FFaniMember subMember = createMember(member, names[0]);
-						
-			return new FFaniComplexProperty(member, subMember);
+			
+			return createComplexProperty (member, names[0]);
 		} else {
 		
 			if (names.Count == 1) {
+				// if this name is the last name, create FFaniMember object. 
 				return createMember (member, names[0]);
 			} else {
+				// recursive call to get FFaniMember for the last member name.	
 				names.RemoveAt(0);
 				
 				FFaniMember subMember = createMember(member, names[0]);
-				
-				return createMember (subMember, names);
+			
+				return getTargetMember (subMember, names);
 			}
 		}
 	}
 	
-	public static FFaniMember getTargetMember(object target, List<string> names) {
-		MemberInfo mi = target.GetType ().GetMember(names[0])[0];
+	public static FFaniMember getTargetMember(object target, string memberName) {
+		if (target == null || memberName == null) {
+			return null;
+		}
 		
-		string memberName = names[0];
-		FFaniMember member = createMember(target, memberName);
+		List<string> names = new List<string>(memberName.Split('.'));
+		string firstName = names[0];
+		
+		// create the top FFaniMember object;	
+		
+		MemberInfo mi = target.GetType ().GetMember(firstName)[0];
+		FFaniMember member = createMember(target, firstName);
 		
 		if (names.Count == 1) {
 			return member;
 		}
 		
 		names.RemoveAt(0);
-
-		return createMember (member, names);
-//						
-//		if (member.getType() == typeof(Vector3)) {
-//			return FFani.createMember (member, names[0]);
-//		}
-//		
-//		if (mi.MemberType == MemberTypes.Property) {
-//			PropertyInfo pi = (PropertyInfo)mi;
-//			if (pi.PropertyType == typeof(Vector3)) {
-//				MemberInfo mmi = pi.PropertyType.GetMember(names[0])[0];
-//				return new FFaniProperty(mmi, target, mi);
-//			} else {
-//				object t = pi.GetValue(target, null);
-//				return getTargetMember (t, names, target);
-//			}
-//		} else if (mi.MemberType == MemberTypes.Field) {
-//			FieldInfo fi = (FieldInfo)mi;
-//			object t = fi.GetValue(target);
-//			return getTargetMember (t, names, target);
-//		} else {
-//			return null;
-//		}
-	}
-	
-	public static FFaniMember getTargetMember(object target, string memberName) {
-		return getTargetMember (target, new List<string>(memberName.Split('.')));
+		
+		return getTargetMember (member, names);
 	}
 }
