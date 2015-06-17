@@ -27,22 +27,20 @@ public class FFaniComplexProperty : FFaniMember{
 	}
 }
 
-public class FFaniVector3Submember : FFaniComplexProperty {
+public class FFaniValueTypeMember : FFaniComplexProperty {
 
-	public FFaniVector3Submember(FFaniMember member, FFaniMember subMember)
+	public FFaniValueTypeMember(FFaniMember member, FFaniMember subMember)
 		: base(member, subMember)
 	{
 	}
 	
 	public override void setValue(object value) {
-		Vector3 memberValue = (Vector3)member.getValue();
-		float submemberValue = Convert.ToSingle(value);
-		if (subMember.getName() == "x") {
-			member.setValue(new Vector3(submemberValue, memberValue.y, memberValue.z));
-		} else if (subMember.getName() == "y") {
-			member.setValue(new Vector3(memberValue.x, submemberValue, memberValue.z));
-		} else if (subMember.getName() == "z") {
-			member.setValue(new Vector3(memberValue.x, memberValue.y, submemberValue));
-		}
+		// '=' means copy of value type object;
+		object newValue = member.getValue();
+		
+		FFaniMember newMember = FFani.createMember(newValue, subMember.getName());
+		newMember.setValue(value);
+		
+		member.setValue (newValue);
 	}	
 }

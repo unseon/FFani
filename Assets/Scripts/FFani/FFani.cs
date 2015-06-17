@@ -22,12 +22,13 @@ public class FFani {
 		}
 	}
 	
-	public static FFaniComplexProperty createComplexProperty(FFaniMember member, string submemberName) {
+	public static FFaniComplexProperty createValueTypeMember(FFaniMember member, string submemberName) {
 		object obj = member.getValue();
 		FFaniMember submember = createMember (obj, submemberName);
 		
+		
 		if (member.getType() == typeof(Vector3)) {
-			return new FFaniVector3Submember(member, submember);
+			return new FFaniValueTypeMember(member, submember);
 		}
 		
 		return null;
@@ -36,15 +37,9 @@ public class FFani {
 	}
 	
 	public static FFaniMember getTargetMember(FFaniMember member, List<string> names) {
-		if (member.getType() == typeof(Vector3)) {
-			// if target name identifies a member of Vector3, create FFaniComplexProperty.
-		
-			if (names.Count != 1) {
-				// if the Vector3's member has its member, it's error.
-				return null;
-			}
-			
-			return createComplexProperty (member, names[0]);
+		if (member.getType().IsValueType) {
+			// if member is value type, create ValueTypeMember
+			return createValueTypeMember (member, names[0]);
 		} else {
 		
 			if (names.Count == 1) {
@@ -52,10 +47,10 @@ public class FFani {
 				return createMember (member, names[0]);
 			} else {
 				// recursive call to get FFaniMember for the last member name.	
+				FFaniMember subMember = createMember(member.getValue(), names[0]);
+			
 				names.RemoveAt(0);
 				
-				FFaniMember subMember = createMember(member, names[0]);
-			
 				return getTargetMember (subMember, names);
 			}
 		}

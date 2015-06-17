@@ -27,6 +27,8 @@ public class FFaniPropertyAnimation : FFaniAnimation {
 		
 		if (member.getType() == typeof(Vector3)) {
 			blendValue = blendVector3;
+		} else if (member.getType() == typeof(Quaternion)) {
+			blendValue = blendQuaternion;
 		} else if (member.getType() == typeof(float)) {
 			blendValue = blendNumber;
 		} else {
@@ -65,5 +67,15 @@ public class FFaniPropertyAnimation : FFaniAnimation {
 		
 		Vector3 newValue = Vector3.Lerp (vFrom, vTo, t);
 		member.setValue(newValue);
-	}	
+	}
+	
+	void blendQuaternion(float t) {
+		Quaternion value = (Quaternion)member.getValue();
+		
+		Quaternion vTo = valueTo != null ? (Quaternion)valueTo : value;
+		Quaternion vFrom = valueFrom != null ? (Quaternion)valueFrom : value;
+		
+		Quaternion newValue = Quaternion.Lerp (vFrom, vTo, t);
+		member.setValue(newValue);
+	}
 }
