@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Reflection;
 using System.Collections.Generic;
+using System;
 
 public class FFani {
 
@@ -11,35 +12,44 @@ public class FFani {
 	}
 	
 	public static FFaniMember createMember(object target, string memberName) {
-		MemberInfo mi = target.GetType().GetMember(memberName)[0];
+	
+		try {
+			MemberInfo mi = target.GetType().GetMember(memberName)[0];
+			
+			if (mi.MemberType == MemberTypes.Property) {
+				return new FFaniMemberFromProperty(target, mi);
+			} else if (mi.MemberType == MemberTypes.Field) {
+				return new FFaniMemberFromField(target, mi);
+			} else {
+				return null;
+			}
 		
-		if (mi.MemberType == MemberTypes.Property) {
-			return new FFaniMemberFromProperty(target, mi);
-		} else if (mi.MemberType == MemberTypes.Field) {
-			return new FFaniMemberFromField(target, mi);
-		} else {
+		} catch(Exception e) {
+			Debug.Log ("memberName: " + memberName);
+			
 			return null;
-		}
+        }
+			           
 	}
 	
-	public static FFaniComplexProperty createValueTypeMember(FFaniMember member, string submemberName) {
+	public static FFaniMember createValueTypeMember(FFaniMember member, List<string> names) {
 		object obj = member.getValue();
-		FFaniMember submember = createMember (obj, submemberName);
 		
+		FFaniMember submember = createMember(obj, names[0]);
 		
-		if (member.getType() == typeof(Vector3)) {
+		if (names.Count == 1) {
 			return new FFaniValueTypeMember(member, submember);
 		}
+		names.RemoveAt(0);
+		FFaniMember valueSubmember = createValueTypeMember (submember, names);
 		
-		return null;
-		
+		return new FFaniValueTypeMember(member, valueSubmember);
 		//return new FFaniComplexProperty(member, submember);
 	}
 	
 	public static FFaniMember getTargetMember(FFaniMember member, List<string> names) {
 		if (member.getType().IsValueType) {
-			// if member is value type, create ValueTypeMember
-			return createValueTypeMember (member, names[0]);
+			return createValueTypeMember(member, names);
 		} else {
 		
 			if (names.Count == 1) {

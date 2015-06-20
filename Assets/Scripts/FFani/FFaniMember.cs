@@ -5,6 +5,8 @@ using System.Reflection;
 
 // abstract PropertyInfo or FieldInfo
 public abstract class FFaniMember {
+	public object obj;
+
 	public abstract Type getType();
 	public abstract object getValue();
 	public abstract void setValue(object value);
@@ -14,7 +16,7 @@ public abstract class FFaniMember {
 
 public class FFaniMemberFromProperty : FFaniMember {
 	PropertyInfo info;
-	object obj;
+	//object obj;
 
 	public FFaniMemberFromProperty(object obj, MemberInfo memberInfo) {
 		info = (PropertyInfo)memberInfo;
@@ -30,7 +32,13 @@ public class FFaniMemberFromProperty : FFaniMember {
 	}
 	
 	public override void setValue(object value) {
-		info.SetValue(obj, value, null);
+		try {
+			info.SetValue(obj, value, null);
+			//Debug.Log ("value: " + value);
+		} catch(Exception e) {
+			Debug.Log ("type:" + info.PropertyType + "<-" + value.GetType());
+			Debug.Log (e);
+		}
 	}
 	
 	public override string getName() {
@@ -40,7 +48,7 @@ public class FFaniMemberFromProperty : FFaniMember {
 
 public class FFaniMemberFromField : FFaniMember {
 	FieldInfo info;
-	object obj;
+	//object obj;
 	
 	public FFaniMemberFromField(object obj, MemberInfo memberInfo) {
 		info = (FieldInfo)memberInfo;
@@ -56,7 +64,11 @@ public class FFaniMemberFromField : FFaniMember {
 	}
 	
 	public override void setValue(object value) {
-		info.SetValue(obj, value);
+		try {
+			info.SetValue(obj, value);
+		} catch(Exception e) {
+			Debug.Log (e);
+		}
 	}
 	
 	public override string getName() {

@@ -27,14 +27,18 @@ public class TestQAnimation : MonoBehaviour {
 
 //		anim.propertyName = "localRotation";
 //		anim.valueTo = Quaternion.Euler(179.0f, 0, 0);
+
+//		anim.propertyName = "localRotation.eulerAngles.x";
+//		anim.valueTo = 350.0f;
 		
 		//anim.valueTo = new Vector3(5.0f, 0, 0);
-		anim.duration = 10.0f;
+		anim.duration = 5.0f;
 		
 		anim.start();
 		
 		//tr.localRotation = Quaternion.Euler(new Vector3(45.0f, 0, 0));
 		//tr.localRotation.w = 1.0f;
+		//tr.localRotation.eulerAngles.x
 		
 		Quaternion q = new Quaternion();
 		q.w = 1.0f;

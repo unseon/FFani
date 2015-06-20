@@ -24,6 +24,16 @@ public class FFaniPropertyAnimation : FFaniAnimation {
 		}
 		
 		member = FFani.getTargetMember(targetComponent, propertyName);
+		object value = member.getValue();
+		
+		if (valueTo == null) {
+			valueTo = value;
+		}
+		
+		if (valueFrom == null) {
+			valueFrom = value;
+		}
+		
 		
 		if (member.getType() == typeof(Vector3)) {
 			blendValue = blendVector3;
@@ -39,6 +49,7 @@ public class FFaniPropertyAnimation : FFaniAnimation {
 	override protected void onUpdate(float delta) {
 		// t shuoud be in 0.0 ~ 1.0
 		float t = Mathf.Clamp(currentTime / duration, 0.0f, 1.0f);
+		
 		blendValue(t);
 	}
 	
@@ -49,33 +60,26 @@ public class FFaniPropertyAnimation : FFaniAnimation {
 	}
 	
 	void blendNumber(float t) {
-		float value = Convert.ToSingle(member.getValue());
-	
-		float vTo = valueTo != null ? Convert.ToSingle (valueTo) : value;
-		float vFrom = valueFrom != null ? Convert.ToSingle (valueFrom) : value;
+		float vTo = Convert.ToSingle (valueTo);
+		float vFrom = Convert.ToSingle (valueFrom);
 		
-		float newValue =  vTo * t + vFrom * (1.0f - t);
-	
+		float newValue = vTo * t + vFrom * (1.0f - t);
 		member.setValue(newValue);
 	}
 	
 	void blendVector3(float t) {
-		Vector3 value = (Vector3)member.getValue();
-		
-		Vector3 vTo = valueTo != null ? (Vector3)valueTo : value;
-		Vector3 vFrom = valueFrom != null ? (Vector3)valueFrom : value;
+		Vector3 vTo = (Vector3)valueTo;
+		Vector3 vFrom = (Vector3)valueFrom;
 		
 		Vector3 newValue = Vector3.Lerp (vFrom, vTo, t);
 		member.setValue(newValue);
 	}
 	
 	void blendQuaternion(float t) {
-		Quaternion value = (Quaternion)member.getValue();
+		Quaternion vTo = (Quaternion)valueTo;
+		Quaternion vFrom = (Quaternion)valueFrom;
 		
-		Quaternion vTo = valueTo != null ? (Quaternion)valueTo : value;
-		Quaternion vFrom = valueFrom != null ? (Quaternion)valueFrom : value;
-		
-		Quaternion newValue = Quaternion.Lerp (vFrom, vTo, t);
+		Quaternion newValue = Quaternion.Slerp(vFrom, vTo, t);
 		member.setValue(newValue);
 	}
 }
