@@ -30,6 +30,7 @@ public class TestQAnimation : MonoBehaviour {
 
 		anim.propertyName = "localRotation.eulerAngles.x";
 		anim.valueTo = 350.0f;
+		anim.delayTime = 3.0f;
 		
 		//anim.valueTo = new Vector3(5.0f, 0, 0);
 		anim.duration = 5.0f;

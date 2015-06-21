@@ -10,17 +10,26 @@ public class FFaniAnimation {
 	public Callback onStopCallback = null;
 
 	public float currentTime = 0.0f;
+	public float delayTime = 0.0f;
+
+	public string state = "ready";
+
 	// Use this for initialization
 	public void start () {
-		currentTime = 0.0f;
-		onStart();
-		FFaniManager.instance().play(this);
+		if (delayTime > 0.0f) {
+			currentTime = - delayTime;
+			FFaniManager.instance().play(this);
+		} else {
+			currentTime = 0.0f;
+			onStart();
+			FFaniManager.instance().play(this);
 
-		if (onStartCallback != null) {
-			onStartCallback();
+			if (onStartCallback != null) {
+				onStartCallback();
+			}
 		}
 	}
-	
+
 	public void stop() {
 		Debug.Log ("Stopped");
 		FFaniManager.instance().stop(this);
@@ -39,13 +48,25 @@ public class FFaniAnimation {
 	}
 
 	virtual protected void onStart() {
+		state = "playing";
 		Debug.Log ("onStart");
 	}
 	
-	// Update is called once per frame
+	// Update is called once per frame from FFaniManager
 	public void updateDelta (float dt) {
 		currentTime += dt;
-		onUpdate(dt);
+
+		if (state == "ready" && currentTime > 0) {
+			onStart();
+
+			if (onStartCallback != null) {
+				onStartCallback();
+			}
+		}
+
+		if (state == "playing") {
+			onUpdate(dt);
+		}
 	}
 	
 	public void updateTo(float time) {

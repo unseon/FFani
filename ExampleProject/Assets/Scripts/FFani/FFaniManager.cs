@@ -26,6 +26,9 @@ public class FFaniManager : MonoBehaviour {
 		
 		start ();
 	}
+
+	public void delayedPlay(FFaniAnimation anim, float delayTime) {
+	}
 	
 	public void stop(FFaniAnimation anim) {
 		animList.Remove(anim);

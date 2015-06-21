@@ -11,7 +11,7 @@ public class FFaniMemberAnimation : FFaniAnimation {
 	public object valueFrom = null;
 	public object valueTo = null;
 	public float duration = 1.0f;
-	
+
 	//private FFaniProperty member;
 	private FFaniMember member;	
 	
@@ -19,6 +19,8 @@ public class FFaniMemberAnimation : FFaniAnimation {
 	public Blender blendValue;
 	
 	override protected void onStart () {
+		base.onStart();
+
 		if (targetComponent == null) {
 			return;
 		}
