@@ -51,6 +51,10 @@ public class FFaniPropertyAnimation : FFaniAnimation {
 		float t = Mathf.Clamp(currentTime / duration, 0.0f, 1.0f);
 		
 		blendValue(t);
+		
+		if (currentTime >= duration) {
+			onFinish();
+		}
 	}
 	
 	void defaultSetter(float t) {

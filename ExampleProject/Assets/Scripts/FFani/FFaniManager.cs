@@ -27,6 +27,10 @@ public class FFaniManager : MonoBehaviour {
 		start ();
 	}
 	
+	public void stop(FFaniAnimation anim) {
+		animList.Remove(anim);
+	}
+	
 	public void start() {
 		StartCoroutine("activate");
 	}

@@ -33,6 +33,12 @@ public class TestQAnimation : MonoBehaviour {
 		
 		//anim.valueTo = new Vector3(5.0f, 0, 0);
 		anim.duration = 5.0f;
+
+
+		FFaniAnimation.Callback finishCallback = () => {Debug.Log ("onFinishCallback lambda called");};
+
+		anim.onStartCallback = () => {Debug.Log ("onStartCallback lambda called");};
+		anim.onFinishCallback = finishCallback;
 		
 		anim.start();
 		

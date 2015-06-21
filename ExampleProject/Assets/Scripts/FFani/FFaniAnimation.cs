@@ -3,14 +3,41 @@ using System.Collections;
 
 public class FFaniAnimation {
 
+	public delegate void Callback();
+
+	public Callback onStartCallback = null;
+	public Callback onFinishCallback = null;
+	public Callback onStopCallback = null;
+
 	public float currentTime = 0.0f;
 	// Use this for initialization
 	public void start () {
 		currentTime = 0.0f;
 		onStart();
 		FFaniManager.instance().play(this);
+
+		if (onStartCallback != null) {
+			onStartCallback();
+		}
 	}
 	
+	public void stop() {
+		Debug.Log ("Stopped");
+		FFaniManager.instance().stop(this);
+
+		if (onStopCallback != null) {
+			onStopCallback();
+		}
+	}
+
+	public void onFinish() {
+		Debug.Log ("Finished");
+		FFaniManager.instance().stop(this);
+		if (onFinishCallback != null) {
+			onFinishCallback();
+		}
+	}
+
 	virtual protected void onStart() {
 		Debug.Log ("onStart");
 	}
