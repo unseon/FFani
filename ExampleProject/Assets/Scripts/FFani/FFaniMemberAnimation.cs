@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System;
 
-public class FFaniPropertyAnimation : FFaniAnimation {
+public class FFaniMemberAnimation : FFaniAnimation {
 
 	public Component targetComponent;
 	public string propertyName;

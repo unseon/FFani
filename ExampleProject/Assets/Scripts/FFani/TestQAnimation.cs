@@ -20,16 +20,16 @@ public class TestQAnimation : MonoBehaviour {
 	void Awake () {
 		Transform tr = GameObject.Find ("Cube").transform;
 	
-		FFaniPropertyAnimation anim = new FFaniPropertyAnimation();
+		FFaniMemberAnimation anim = new FFaniMemberAnimation();
 		anim.targetComponent = GameObject.Find ("Cube").transform;
-		anim.propertyName = "position.x";
-		anim.valueTo = 15.0f;
+//		anim.propertyName = "position.x";
+//		anim.valueTo = 15.0f;
 
 //		anim.propertyName = "localRotation";
 //		anim.valueTo = Quaternion.Euler(179.0f, 0, 0);
 
-//		anim.propertyName = "localRotation.eulerAngles.x";
-//		anim.valueTo = 350.0f;
+		anim.propertyName = "localRotation.eulerAngles.x";
+		anim.valueTo = 350.0f;
 		
 		//anim.valueTo = new Vector3(5.0f, 0, 0);
 		anim.duration = 5.0f;
