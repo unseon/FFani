@@ -39,14 +39,19 @@ public class FFaniValueTypeMember : FFaniMember {
 		
 		if (submember.GetType() == typeof(FFaniValueTypeMember)) {
 			// casting is needed to get submember.member.obj
+			submember.obj = member.getValue();
 			FFaniValueTypeMember valMember = (FFaniValueTypeMember)submember;
 			valMember.setValue(value);
+
+			Debug.Log (valMember.member.obj);
 
 			// reassign submember.member.obj to member's value
 			member.setValue (valMember.member.obj);
 		} else {
-			submember.setValue(value);
+			Debug.Log (member.getValue ());
+			submember.obj = member.getValue();
 
+			submember.setValue(value);
 			// reassign submember.obj to member's value
 			member.setValue (submember.obj);
 		}

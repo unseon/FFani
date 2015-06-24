@@ -10,7 +10,6 @@ public class FFaniMemberAnimation : FFaniAnimation {
 	public string propertyName;
 	public object valueFrom = null;
 	public object valueTo = null;
-	public float duration = 1.0f;
 
 	//private FFaniProperty member;
 	private FFaniMember member;	

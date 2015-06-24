@@ -36,24 +36,33 @@ public class TestQAnimation : MonoBehaviour {
 		anim.duration = 5.0f;
 
 
-		FFaniAnimation.Callback finishCallback = () => {Debug.Log ("onFinishCallback lambda called");};
+		//FFaniAnimation.Callback finishCallback = () => {Debug.Log ("onFinishCallback lambda called");};
 
-		anim.onStartCallback = () => {Debug.Log ("onStartCallback lambda called");};
-		anim.onFinishCallback = finishCallback;
+		//anim.onStartCallback = () => {Debug.Log ("onStartCallback lambda called");};
+		//anim.onFinishCallback = finishCallback;
 		
-		anim.start();
-		
-		//tr.localRotation = Quaternion.Euler(new Vector3(45.0f, 0, 0));
-		//tr.localRotation.w = 1.0f;
-		//tr.localRotation.eulerAngles.x
-		
-		Quaternion q = new Quaternion();
-		q.w = 1.0f;
-		
-		Vector3 v = new Vector3();
-		v.x = 1.0f;
+		//anim.start();
+
+		FFaniMemberAnimation anim01 = new FFaniMemberAnimation();
+		anim01.targetComponent = GameObject.Find ("Cube").transform;
+		anim01.propertyName = "position.x";
+		anim01.valueTo = 10.0f;
+		anim01.duration = 5.0f;
+
+		FFaniMemberAnimation anim02 = new FFaniMemberAnimation();
+		anim02.targetComponent = GameObject.Find ("Cube").transform;
+		anim02.propertyName = "position.y";
+		anim02.valueTo = 5.0f;
+		anim02.duration = 5.0f;
+
+		FFaniSequentialAnimation seqAnim = new FFaniSequentialAnimation();
+		seqAnim.add (anim01);
+		seqAnim.add (anim02);
+		seqAnim.start ();
+
+//		anim01.start ();
+//		anim02.start ();
 	}
-	
 	// Update is called once per frame
 	void Update () {
 	

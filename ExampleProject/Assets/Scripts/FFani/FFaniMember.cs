@@ -66,6 +66,7 @@ public class FFaniMemberFromField : FFaniMember {
 	public override void setValue(object value) {
 		try {
 			info.SetValue(obj, value);
+			Debug.Log (info.Name + ":" + value);
 		} catch(Exception e) {
 			Debug.Log (e);
 		}

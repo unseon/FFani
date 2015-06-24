@@ -11,6 +11,7 @@ public class FFaniAnimation {
 
 	public float currentTime = 0.0f;
 	public float delayTime = 0.0f;
+	public float duration = 0.0f;
 
 	public string state = "ready";
 
@@ -33,7 +34,7 @@ public class FFaniAnimation {
 	public void stop() {
 		Debug.Log ("Stopped");
 		FFaniManager.instance().stop(this);
-
+		state = "stop";
 		if (onStopCallback != null) {
 			onStopCallback();
 		}
@@ -42,6 +43,7 @@ public class FFaniAnimation {
 	public void onFinish() {
 		Debug.Log ("Finished");
 		FFaniManager.instance().stop(this);
+		state = "finished";
 		if (onFinishCallback != null) {
 			onFinishCallback();
 		}
