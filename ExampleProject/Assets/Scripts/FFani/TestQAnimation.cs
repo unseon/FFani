@@ -51,7 +51,8 @@ public class TestQAnimation : MonoBehaviour {
 		anim01.targetComponent = GameObject.Find ("Cube").transform;
 		anim01.propertyName = "position.x";
 		//anim01.to = 10.0f;
-		anim01.duration = 5.0f;
+		anim01.duration = 2.0f;
+		anim01.easingFunction = Easing.InElastic;
 //
 //		FFaniMemberAnimation anim02 = new FFaniMemberAnimation();
 //		anim02.targetComponent = GameObject.Find ("Cube").transform;
@@ -72,7 +73,7 @@ public class TestQAnimation : MonoBehaviour {
 		FFaniMemberValue mv01 = new FFaniMemberValue();
 
 		mv01.member = FFani.getTargetMember(tr, "position.x");
-		mv01.value  = 5.0f; 
+		mv01.value  = 10.0f; 
 
 		moment01.name = "moment01";
 		moment01.add (mv01);

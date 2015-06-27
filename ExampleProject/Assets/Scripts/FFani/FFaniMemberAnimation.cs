@@ -62,8 +62,9 @@ public class FFaniMemberAnimation : FFaniAnimation {
 	override protected void onUpdate(float delta) {
 		// t shuoud be in 0.0 ~ 1.0
 		float t = Mathf.Clamp(currentTime / duration, 0.0f, 1.0f);
-		
-		blendValue(t);
+		float easingTime = easingFunction(t);
+
+		blendValue(easingTime);
 		
 		if (currentTime >= duration) {
 			onFinish();
