@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class FFaniAnimation {
 
@@ -78,5 +79,14 @@ public class FFaniAnimation {
 	
 	virtual protected void onUpdate(float delta) {
 		Debug.Log ("onUpdate");
+	}
+}
+
+
+public class FFaniGroupAnimation : FFaniAnimation {
+	public List<FFaniAnimation> animList = new List<FFaniAnimation>();
+
+	public void add(FFaniAnimation anim) {
+		animList.Add(anim);
 	}
 }

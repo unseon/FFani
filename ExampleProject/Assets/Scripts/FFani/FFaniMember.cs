@@ -12,6 +12,14 @@ public abstract class FFaniMember {
 	public abstract void setValue(object value);
 	public abstract string getName();
 //	public abstract object blend(object valueFrom, object valueTo, float t);
+
+	public bool isEqual(FFaniMember that) {
+		if (this.obj == that.obj && this.getName () == that.getName ()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 public class FFaniMemberFromProperty : FFaniMember {
@@ -66,7 +74,7 @@ public class FFaniMemberFromField : FFaniMember {
 	public override void setValue(object value) {
 		try {
 			info.SetValue(obj, value);
-			Debug.Log (info.Name + ":" + value);
+			//Debug.Log (info.Name + ":" + value);
 		} catch(Exception e) {
 			Debug.Log (e);
 		}

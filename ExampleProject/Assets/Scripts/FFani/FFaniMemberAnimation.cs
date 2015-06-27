@@ -8,11 +8,23 @@ public class FFaniMemberAnimation : FFaniAnimation {
 
 	public Component targetComponent;
 	public string propertyName;
-	public object valueFrom = null;
-	public object valueTo = null;
+	public object from = null;
+	public object to = null;
 
 	//private FFaniProperty member;
-	private FFaniMember member;	
+	private FFaniMember _member;
+	public FFaniMember member {
+		get {
+			if (_member == null) {
+				_member = FFani.getTargetMember(targetComponent, propertyName);
+			}
+
+			return _member;
+		}
+		set {
+			_member = value;
+		}
+	}
 	
 	public delegate void Blender(float t);
 	public Blender blendValue;
@@ -27,12 +39,12 @@ public class FFaniMemberAnimation : FFaniAnimation {
 		member = FFani.getTargetMember(targetComponent, propertyName);
 		object value = member.getValue();
 		
-		if (valueTo == null) {
-			valueTo = value;
+		if (to == null) {
+			to = value;
 		}
 		
-		if (valueFrom == null) {
-			valueFrom = value;
+		if (from == null) {
+			from = value;
 		}
 		
 		
@@ -59,30 +71,30 @@ public class FFaniMemberAnimation : FFaniAnimation {
 	}
 	
 	void defaultSetter(float t) {
-		if (valueTo != null) {
-			member.setValue (valueTo);
+		if (to != null) {
+			member.setValue (to);
 		}
 	}
 	
 	void blendNumber(float t) {
-		float vTo = Convert.ToSingle (valueTo);
-		float vFrom = Convert.ToSingle (valueFrom);
+		float vTo = Convert.ToSingle (to);
+		float vFrom = Convert.ToSingle (from);
 		
 		float newValue = vTo * t + vFrom * (1.0f - t);
 		member.setValue(newValue);
 	}
 	
 	void blendVector3(float t) {
-		Vector3 vTo = (Vector3)valueTo;
-		Vector3 vFrom = (Vector3)valueFrom;
+		Vector3 vTo = (Vector3)to;
+		Vector3 vFrom = (Vector3)from;
 		
 		Vector3 newValue = Vector3.Lerp (vFrom, vTo, t);
 		member.setValue(newValue);
 	}
 	
 	void blendQuaternion(float t) {
-		Quaternion vTo = (Quaternion)valueTo;
-		Quaternion vFrom = (Quaternion)valueFrom;
+		Quaternion vTo = (Quaternion)to;
+		Quaternion vFrom = (Quaternion)from;
 		
 		Quaternion newValue = Quaternion.Slerp(vFrom, vTo, t);
 		member.setValue(newValue);

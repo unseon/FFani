@@ -2,9 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class FFaniSequentialAnimation : FFaniAnimation {
+public class FFaniSequentialAnimation : FFaniGroupAnimation {
 
-	List<FFaniAnimation> animList = new List<FFaniAnimation>();
 	int activeAnimNumber = -1;
 
 	override protected void onStart () {
@@ -34,9 +33,5 @@ public class FFaniSequentialAnimation : FFaniAnimation {
 				onFinish();
 			}
 		}
-	}
-
-	public void add(FFaniAnimation anim) {
-		animList.Add(anim);
 	}
 }

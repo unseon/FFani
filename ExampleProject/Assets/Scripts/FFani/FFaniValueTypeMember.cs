@@ -48,7 +48,7 @@ public class FFaniValueTypeMember : FFaniMember {
 			// reassign submember.member.obj to member's value
 			member.setValue (valMember.member.obj);
 		} else {
-			Debug.Log (member.getValue ());
+			//Debug.Log (member.getValue ());
 			submember.obj = member.getValue();
 
 			submember.setValue(value);
