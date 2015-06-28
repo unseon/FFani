@@ -375,6 +375,15 @@ public class FFaniAnimation {
 		}
 	}
 
+	public void reset() {
+		currentTime = 0.0f;
+		onStart();
+		
+		if (onStartCallback != null) {
+			onStartCallback();
+		}
+	}
+
 	public void stop() {
 		Debug.Log ("Stopped");
 		FFaniManager.instance().stop(this);
@@ -423,14 +432,5 @@ public class FFaniAnimation {
 	
 	virtual protected void onUpdate(float delta) {
 		Debug.Log ("onUpdate");
-	}
-}
-
-
-public class FFaniGroupAnimation : FFaniAnimation {
-	public List<FFaniAnimation> animList = new List<FFaniAnimation>();
-
-	public void add(FFaniAnimation anim) {
-		animList.Add(anim);
 	}
 }
