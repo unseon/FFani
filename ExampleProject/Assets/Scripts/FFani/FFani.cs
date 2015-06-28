@@ -70,6 +70,13 @@ public class FFani {
 		if (target == null || memberName == null) {
 			return null;
 		}
+
+		// replace short name of Transform with real name;
+		if (target.GetType() == typeof(Transform) &&
+		    transformShortName.ContainsKey(memberName))
+		{
+			memberName = transformShortName[memberName];
+		}
 		
 		List<string> names = new List<string>(memberName.Split('.'));
 		string firstName = names[0];
@@ -87,4 +94,23 @@ public class FFani {
 		
 		return getTargetMember (member, names);
 	}
+
+	public static Dictionary<string, string> transformShortName = new Dictionary<string, string> {
+		{"pos", "localPosition"},
+		{"px", "localPosition.x"},
+		{"py", "localPosition.y"},
+		{"pz", "localPosition.z"},
+		{"rot", "localRotation.eulerAngles"},
+		{"rx", "localRotation.eulerAngles.x"},
+		{"ry", "localRotation.eulerAngles.y"},
+		{"rz", "localRotation.eulerAngles.z"},
+		{"scl", "localScale"},
+		{"sx", "localScale.x"},
+		{"sy", "localScale.y"},
+		{"sz", "localScale.z"},
+		{"wpos", "position"},
+		{"wpx", "position.x"},
+		{"wpy", "position.y"},
+		{"wpz", "position.z"},
+	};
 }
