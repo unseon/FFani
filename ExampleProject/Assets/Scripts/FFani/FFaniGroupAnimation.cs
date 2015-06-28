@@ -26,9 +26,8 @@ public class FFaniParallelAnimation : FFaniGroupAnimation {
 
 	override protected void onUpdate(float delta) {
 		for (int i = 0; i < runningAnimList.Count; i++) {
-			animList[i].updateDelta(delta);
-
-			if (animList[i].state == "finished") {
+			runningAnimList[i].updateDelta(delta);
+			if (runningAnimList[i].state == "finished") {
 				runningAnimList.RemoveAt(i);
 				i--;
 			}

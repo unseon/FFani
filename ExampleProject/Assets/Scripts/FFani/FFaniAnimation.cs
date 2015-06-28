@@ -376,11 +376,15 @@ public class FFaniAnimation {
 	}
 
 	public void reset() {
-		currentTime = 0.0f;
-		onStart();
-		
-		if (onStartCallback != null) {
-			onStartCallback();
+		if (delayTime > 0.0f) {
+			currentTime = - delayTime;
+		} else {
+			currentTime = 0.0f;
+			onStart();
+			
+			if (onStartCallback != null) {
+				onStartCallback();
+			}
 		}
 	}
 

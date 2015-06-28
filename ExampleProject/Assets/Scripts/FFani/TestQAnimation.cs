@@ -59,6 +59,7 @@ public class TestQAnimation : MonoBehaviour {
 		anim02.propertyName = "position.y";
 		anim02.to = 5.0f;
 		anim02.duration = 3.0f;
+		anim02.delayTime = 1.0f;
 
 //		FFaniSequentialAnimation seqAnim = new FFaniSequentialAnimation();
 //		seqAnim.add (anim01);
