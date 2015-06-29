@@ -347,9 +347,9 @@ public class FFaniAnimation {
 
 	public delegate void Callback();
 
-	public Callback onStartCallback = null;
-	public Callback onFinishCallback = null;
-	public Callback onStopCallback = null;
+	public FFani.Callback onStartCallback = null;
+	public FFani.Callback onFinishCallback = null;
+	public FFani.Callback onStopCallback = null;
 
 	public float currentTime = 0.0f;
 	public float currentEasingTime = 0.0f;

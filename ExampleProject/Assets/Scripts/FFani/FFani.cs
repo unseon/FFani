@@ -6,8 +6,26 @@ using System;
 
 public class FFani {
 
-	public bool Fire() {
+	public delegate void Callback();
+
+	public static bool Fire(Component target
+	                        , string memberName
+	                        , object to = null
+	                        , object from = null
+	                        , float duration = 0.5f
+	                        , float delayTime = 0.0f
+	                        , Callback callback = null) {
 	
+		FFaniMemberAnimation anim01 = new FFaniMemberAnimation();
+		anim01.targetComponent = target;
+		anim01.propertyName = memberName;
+		anim01.to = to;
+		anim01.duration = duration;
+		anim01.delayTime = delayTime;
+		anim01.onFinishCallback = callback;
+
+		anim01.start ();
+
 		return true;
 	}
 	

@@ -66,10 +66,18 @@ public class TestQAnimation : MonoBehaviour {
 //		seqAnim.add (anim02);
 //		seqAnim.start ();
 
-		FFaniParallelAnimation parAnim = new FFaniParallelAnimation();
-		parAnim.add (anim01);
-		parAnim.add (anim02);
-		parAnim.start ();
+//		FFaniParallelAnimation parAnim = new FFaniParallelAnimation();
+//		parAnim.add (anim01);
+//		parAnim.add (anim02);
+//		parAnim.start ();
+
+		FFani.fire(
+			target: tr
+			, memberName: "px"
+			, to: 10.0f
+			, duration: 3.0f
+			, callback: () => {Debug.Log ("onFinishCallback lambda called");}
+		);
 
 
 //		anim01.start ();
