@@ -387,7 +387,7 @@ public class FFaniMation {
 	}
 
 	public void Stop() {
-		Debug.Log ("Stopped");
+		//Debug.Log ("Stopped");
 		FFaniManager.Instance().Stop(this);
 		state = "stop";
 		if (onStopped != null) {
@@ -396,7 +396,7 @@ public class FFaniMation {
 	}
 
 	protected void Finish() {
-		Debug.Log ("Finished");
+		//Debug.Log ("Finished");
 		FFaniManager.Instance().Stop(this);
 		state = "finished";
 		if (onFinished != null) {
@@ -404,15 +404,19 @@ public class FFaniMation {
 		}
 	}
 
-	public FFaniMation Remind(FFani.Callback onFinished) {
+	public FFaniMation Remind(FFani.Callback onFinished, 
+	                          FFani.Callback onStarted = null,
+	                          FFani.Callback onStopped = null) {
 		this.onFinished += onFinished;
+		this.onStarted += onStarted;
+		this.onStopped += onStopped;
 
 		return this;
 	}
 
 	virtual protected void Init() {
 		state = "playing";
-		Debug.Log ("onStart");
+		//Debug.Log ("onStart");
 	}
 	
 	// Update is called once per frame from FFaniManager

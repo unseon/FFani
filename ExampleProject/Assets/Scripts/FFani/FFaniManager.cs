@@ -41,7 +41,7 @@ public class FFaniManager : MonoBehaviour {
 		}
 		
 		isPlaying = false;
-		Debug.Log ("FFaniManager Stopped");
+//		Debug.Log ("FFaniManager Stopped");
 	}
 	
 	private void Tick() {

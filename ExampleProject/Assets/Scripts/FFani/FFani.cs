@@ -8,34 +8,12 @@ public class FFani {
 
 	public delegate void Callback();
 
-	public static bool Fire(Component target
-	                        , string propertyName
-	                        , object to = null
-	                        , object from = null
-	                        , float duration = 0.5f
-	                        , float delayTime = 0.0f
-	                        , Callback onFinished = null)
-	{
-		FFaniPropertyAnimation anim = new FFaniPropertyAnimation();
-		anim.targetComponent = target;
-		anim.propertyName = propertyName;
-		anim.to = to;
-		anim.duration = duration;
-		anim.delayTime = delayTime;
-		anim.onFinished = onFinished;
-
-		anim.Fire ();
-
-		return true;
-	}
-
 	public static FFaniMation Mation(Component target
 	                        , string propertyName
 	                        , object to = null
 	                        , object from = null
 	                        , float duration = 0.5f
-	                        , float delayTime = 0.0f
-	                        , Callback onFinished = null)
+	                        , float delayTime = 0.0f)
 	{
 		FFaniPropertyAnimation anim = new FFaniPropertyAnimation();
 		anim.targetComponent = target;
@@ -43,8 +21,7 @@ public class FFani {
 		anim.to = to;
 		anim.duration = duration;
 		anim.delayTime = delayTime;
-		anim.onFinished = onFinished;
-		
+
 		return anim;
 	}
 
@@ -71,9 +48,6 @@ public class FFani {
 	public static FFaniProperty CreateMember(object target, string propertyName) {
 	
 		try {
-			Type tt = target.GetType();
-			MemberInfo[] am = target.GetType().GetMembers();
-			MemberInfo[] mm = target.GetType().GetMember(propertyName);
 			MemberInfo mi = target.GetType().GetMember(propertyName)[0];
 			
 			if (mi.MemberType == MemberTypes.Property) {

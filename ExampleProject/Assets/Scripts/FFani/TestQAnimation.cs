@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -73,6 +74,12 @@ public class TestQAnimation : MonoBehaviour {
 
 		FFani.Serial (
 			FFani.Mation(
+				target: GameObject.Find ("Panel").GetComponent<Image>(),
+				propertyName: "color.a",
+				to: 0.5f,
+				duration: 3.0f
+			),
+			FFani.Mation(
 				target: GameObject.Find ("Cube").GetComponent<Renderer>(),
 				propertyName: "material.color",
 				to: new Color(0, 1, 0)
@@ -86,15 +93,13 @@ public class TestQAnimation : MonoBehaviour {
 				target: tr,
 				propertyName: "pos",
 				to: new Vector3(10, 10, 0),
-				duration: 3.0f,
-				onFinished: () => {Debug.Log ("onFinishCallback lambda called");}
+				duration: 3.0f
 			),
 			FFani.Mation(
 				target: tr,
 				propertyName: "py",
 				to: 0.0f,
-				duration: 3.0f,
-				onFinished: () => {Debug.Log ("onFinishCallback lambda called");}
+				duration: 3.0f
 			)
 		).Remind( 
         	() => {
