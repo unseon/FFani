@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System;
 
-public class FFaniMemberAnimation : FFaniAnimation {
+public class FFaniPropertyAnimation : FFaniMation {
 
 	public Component targetComponent;
 	public string propertyName;
@@ -12,8 +12,8 @@ public class FFaniMemberAnimation : FFaniAnimation {
 	public object to = null;
 
 	//private FFaniProperty member;
-	private FFaniMember _member;
-	public FFaniMember member {
+	private FFaniProperty _member;
+	public FFaniProperty member {
 		get {
 			if (_member == null) {
 				_member = FFani.getTargetMember(targetComponent, propertyName);
@@ -29,8 +29,8 @@ public class FFaniMemberAnimation : FFaniAnimation {
 	public delegate void Blender(float t);
 	public Blender blendValue;
 	
-	override protected void onStart () {
-		base.onStart();
+	override protected void Init () {
+		base.Init();
 
 		if (targetComponent == null) {
 			return;
@@ -50,6 +50,8 @@ public class FFaniMemberAnimation : FFaniAnimation {
 		
 		if (member.getType() == typeof(Vector3)) {
 			blendValue = blendVector3;
+		} else if (member.getType() == typeof(Color)) {
+			blendValue = blendColor;
 		} else if (member.getType() == typeof(Quaternion)) {
 			blendValue = blendQuaternion;
 		} else if (member.getType() == typeof(float)) {
@@ -59,7 +61,7 @@ public class FFaniMemberAnimation : FFaniAnimation {
 		}
 	}
 	
-	override protected void onUpdate(float delta) {
+	override protected void OnUpdate(float delta) {
 		//Debug.Log (currentTime);
 
 		// t shuoud be in 0.0 ~ 1.0
@@ -69,7 +71,7 @@ public class FFaniMemberAnimation : FFaniAnimation {
 		blendValue(easingTime);
 		
 		if (currentTime >= duration) {
-			onFinish();
+			Finish();
 		}
 	}
 	
@@ -101,5 +103,13 @@ public class FFaniMemberAnimation : FFaniAnimation {
 		
 		Quaternion newValue = Quaternion.Slerp(vFrom, vTo, t);
 		member.setValue(newValue);
+	}
+
+	void blendColor(float t) {
+		Color vTo = (Color)to;
+		Color vFrom = (Color)from;
+
+		Color newValue = Color32.Lerp(vFrom, vTo, t);
+		member.setValue (newValue);
 	}
 }

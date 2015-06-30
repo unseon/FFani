@@ -24,7 +24,7 @@ public class TestQAnimation : MonoBehaviour {
 	void Awake () {
 		Transform tr = GameObject.Find ("Cube").transform;
 	
-		FFaniMemberAnimation anim = new FFaniMemberAnimation();
+		FFaniPropertyAnimation anim = new FFaniPropertyAnimation();
 		anim.targetComponent = GameObject.Find ("Cube").transform;
 //		anim.propertyName = "position.x";
 //		anim.valueTo = 15.0f;
@@ -47,14 +47,14 @@ public class TestQAnimation : MonoBehaviour {
 		
 		//anim.start();
 
-		FFaniMemberAnimation anim01 = new FFaniMemberAnimation();
+		FFaniPropertyAnimation anim01 = new FFaniPropertyAnimation();
 		anim01.targetComponent = GameObject.Find ("Cube").transform;
 		anim01.propertyName = "px";
 		anim01.to = 10.0f;
 		anim01.duration = 3.0f;
 		//anim01.easingFunction = Easing.InElastic;
 
-		FFaniMemberAnimation anim02 = new FFaniMemberAnimation();
+		FFaniPropertyAnimation anim02 = new FFaniPropertyAnimation();
 		anim02.targetComponent = GameObject.Find ("Cube").transform;
 		anim02.propertyName = "position.y";
 		anim02.to = 5.0f;
@@ -71,13 +71,36 @@ public class TestQAnimation : MonoBehaviour {
 //		parAnim.add (anim02);
 //		parAnim.start ();
 
-		FFani.fire(
-			target: tr
-			, memberName: "px"
-			, to: 10.0f
-			, duration: 3.0f
-			, callback: () => {Debug.Log ("onFinishCallback lambda called");}
-		);
+		FFani.Serial (
+			FFani.Mation(
+				target: GameObject.Find ("Cube").GetComponent<Renderer>(),
+				propertyName: "material.color",
+				to: new Color(0, 1, 0)
+			),
+			FFani.Mation(
+				target: GameObject.Find ("Cube").GetComponent<Renderer>(),
+				propertyName: "material.color.b",
+				to: 1.0f
+			),
+			FFani.Mation(
+				target: tr,
+				propertyName: "pos",
+				to: new Vector3(10, 10, 0),
+				duration: 3.0f,
+				onFinished: () => {Debug.Log ("onFinishCallback lambda called");}
+			),
+			FFani.Mation(
+				target: tr,
+				propertyName: "py",
+				to: 0.0f,
+				duration: 3.0f,
+				onFinished: () => {Debug.Log ("onFinishCallback lambda called");}
+			)
+		).Remind( 
+        	() => {
+				Debug.Log ("Serial.onFinished Callback lambda called");
+			}
+		).Fire();
 
 
 //		anim01.start ();

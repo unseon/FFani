@@ -2,63 +2,63 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class FFaniMemberValue {
-	public FFaniMember member;
+public class FFaniPair {
+	public FFaniProperty property;
 	public object value;
 
-	public void activate() {
-		member.setValue (value);
+	public void Activate() {
+		property.setValue (value);
 	}
 }
 
 public class FFaniMoment {
 	public string name = "";
-	public List<FFaniMemberValue> memberValues = new List<FFaniMemberValue>();
+	public List<FFaniPair> momentValues = new List<FFaniPair>();
 
-	public void activate() {
-		for (int i = 0; i < memberValues.Count; i++) {
-			memberValues[i].activate ();
+	public void Activate() {
+		for (int i = 0; i < momentValues.Count; i++) {
+			momentValues[i].Activate ();
 		}
 	}
 
-	public void add(FFaniMemberValue mv) {
-		memberValues.Add (mv);
+	public void Add(FFaniPair mv) {
+		momentValues.Add (mv);
 	}
 }
 
-public class FFaniMomentLink {
+public class FFaniSegue {
 	public string from;
 	public string to;
 
-	public List<FFaniAnimation> animList = new List<FFaniAnimation>();
+	public List<FFaniMation> animList = new List<FFaniMation>();
 
-	public void startTo(FFaniMoment moment) {
-		updateTarget (moment);
+	public void StartTo(FFaniMoment moment) {
+		UpdateTarget (moment);
 
 		for(int i = 0; i < animList.Count; i++) {
-			animList[i].start ();
+			animList[i].Fire ();
 		}
 	}
 
-	public void updateTarget(FFaniMoment moment) {
+	public void UpdateTarget(FFaniMoment moment) {
 		for (int i = 0; i < animList.Count; i++) {
-			updateAnimationTargetValue(moment, animList[i]);
+			UpdateAnimationTargetValue(moment, animList[i]);
 		}
 	}
 	
-	public void updateAnimationTargetValue(FFaniMoment moment, FFaniAnimation anim) {
+	public void UpdateAnimationTargetValue(FFaniMoment moment, FFaniMation anim) {
 		if (anim.GetType() == typeof(FFaniGroupAnimation)) {
 			FFaniGroupAnimation groupAnim = (FFaniGroupAnimation)anim;
 			for (int i = 0; i < groupAnim.animList.Count; i++) {
-				updateAnimationTargetValue(moment, groupAnim.animList[i]);
+				UpdateAnimationTargetValue(moment, groupAnim.animList[i]);
 			}
 			
 			return;
-		} else if (anim.GetType() == typeof(FFaniMemberAnimation)){
-			FFaniMemberAnimation memberAnim = (FFaniMemberAnimation) anim;
+		} else if (anim.GetType() == typeof(FFaniPropertyAnimation)){
+			FFaniPropertyAnimation memberAnim = (FFaniPropertyAnimation) anim;
 			
 			if (memberAnim.to == null) {
-				FFaniMemberValue memberValue = moment.memberValues.Find (item => item.member.isEqual(memberAnim.member));
+				FFaniPair memberValue = moment.momentValues.Find (item => item.property.isEqual(memberAnim.member));
 				memberAnim.to = memberValue.value;
 			}
 		}
@@ -68,7 +68,7 @@ public class FFaniMomentLink {
 public class FFaniMomentMap {
 	Dictionary<string, FFaniMoment> moments = new Dictionary<string, FFaniMoment>();
 
-	List<FFaniMomentLink> momentLinks = new List<FFaniMomentLink>();
+	List<FFaniSegue> momentLinks = new List<FFaniSegue>();
 
 	private FFaniMoment currentMoment;
 	public string moment {
@@ -79,12 +79,12 @@ public class FFaniMomentMap {
 			string prevMoment = currentMoment.name;
 			currentMoment = moments[value];
 
-			FFaniMomentLink link = findMomentLink(prevMoment, moment);
+			FFaniSegue link = FindMomentLink(prevMoment, moment);
 
 			if (link != null) {
-				link.startTo(currentMoment);
+				link.StartTo(currentMoment);
 			} else {
-				currentMoment.activate();
+				currentMoment.Activate();
 			}
 		}
 	}
@@ -94,16 +94,16 @@ public class FFaniMomentMap {
 		moments[""] = currentMoment;
 	}
 
-	public void add(FFaniMoment moment) {
+	public void Add(FFaniMoment moment) {
 		moments[moment.name] = moment;
 	}
 
-	public void addLink(FFaniMomentLink link) {
+	public void AddLink(FFaniSegue link) {
 		momentLinks.Insert(0, link);
 	}
 
-	public FFaniMomentLink findMomentLink(string from, string to) {
-		FFaniMomentLink link = momentLinks.Find (item => (item.from == from || item.from == "*" ) && (item.to == to || item.to == "*"));
+	public FFaniSegue FindMomentLink(string from, string to) {
+		FFaniSegue link = momentLinks.Find (item => (item.from == from || item.from == "*" ) && (item.to == to || item.to == "*"));
 
 		return link;
 	}

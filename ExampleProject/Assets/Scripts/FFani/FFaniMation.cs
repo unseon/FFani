@@ -329,7 +329,7 @@ public class Easing {
 
 }
 
-public class FFaniAnimation {
+public class FFaniMation {
 
 //	public enum Curve {Linear, InQuad, OutQuad, InOutQuad, OutInQuad,
 //		InCubic, OutCubic, InOutCubic, OutInCubic, InQuart,
@@ -345,11 +345,9 @@ public class FFaniAnimation {
 
 	public EasingCurve easingFunction = Easing.Linear;
 
-	public delegate void Callback();
-
-	public FFani.Callback onStartCallback = null;
-	public FFani.Callback onFinishCallback = null;
-	public FFani.Callback onStopCallback = null;
+	public FFani.Callback onStarted = null;
+	public FFani.Callback onFinished = null;
+	public FFani.Callback onStopped = null;
 
 	public float currentTime = 0.0f;
 	public float currentEasingTime = 0.0f;
@@ -360,81 +358,87 @@ public class FFaniAnimation {
 
 
 	// Use this for initialization
-	public void start () {
+	public void Fire () {
 		if (delayTime > 0.0f) {
 			currentTime = - delayTime;
-			FFaniManager.instance().play(this);
+			FFaniManager.Instance().Play(this);
 		} else {
 			currentTime = 0.0f;
-			onStart();
-			FFaniManager.instance().play(this);
+			Init();
+			FFaniManager.Instance().Play(this);
 
-			if (onStartCallback != null) {
-				onStartCallback();
+			if (onStarted != null) {
+				onStarted();
 			}
 		}
 	}
 
-	public void reset() {
+	public void Reset() {
 		if (delayTime > 0.0f) {
 			currentTime = - delayTime;
 		} else {
 			currentTime = 0.0f;
-			onStart();
+			Init();
 			
-			if (onStartCallback != null) {
-				onStartCallback();
+			if (onStarted != null) {
+				onStarted();
 			}
 		}
 	}
 
-	public void stop() {
+	public void Stop() {
 		Debug.Log ("Stopped");
-		FFaniManager.instance().stop(this);
+		FFaniManager.Instance().Stop(this);
 		state = "stop";
-		if (onStopCallback != null) {
-			onStopCallback();
+		if (onStopped != null) {
+			onStopped();
 		}
 	}
 
-	public void onFinish() {
+	protected void Finish() {
 		Debug.Log ("Finished");
-		FFaniManager.instance().stop(this);
+		FFaniManager.Instance().Stop(this);
 		state = "finished";
-		if (onFinishCallback != null) {
-			onFinishCallback();
+		if (onFinished != null) {
+			onFinished();
 		}
 	}
 
-	virtual protected void onStart() {
+	public FFaniMation Remind(FFani.Callback onFinished) {
+		this.onFinished += onFinished;
+
+		return this;
+	}
+
+	virtual protected void Init() {
 		state = "playing";
 		Debug.Log ("onStart");
 	}
 	
 	// Update is called once per frame from FFaniManager
-	public void updateDelta (float dt) {
+	public void UpdateDelta (float dt) {
 		currentTime += dt;
 
 		if (state == "ready" && currentTime > 0) {
-			onStart();
+			Init();
 
-			if (onStartCallback != null) {
-				onStartCallback();
+			if (onStarted != null) {
+				onStarted();
 			}
 		}
 
 		if (state == "playing") {
 
-			onUpdate(dt);
+			OnUpdate(dt);
 		}
 	}
 	
-	public void updateTo(float time) {
+	public void UpdateTo(float time) {
 		currentTime = time;
-		onUpdate (0.0f);
+		OnUpdate (0.0f);
 	}
 	
-	virtual protected void onUpdate(float delta) {
+	virtual protected void OnUpdate(float delta) {
 		Debug.Log ("onUpdate");
 	}
 }
