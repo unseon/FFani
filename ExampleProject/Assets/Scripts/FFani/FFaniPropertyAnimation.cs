@@ -46,8 +46,7 @@ public class FFaniPropertyAnimation : FFaniMation {
 		if (from == null) {
 			from = value;
 		}
-		
-		
+
 		if (member.getType() == typeof(Vector3)) {
 			blendValue = blendVector3;
 		} else if (member.getType() == typeof(Color)) {

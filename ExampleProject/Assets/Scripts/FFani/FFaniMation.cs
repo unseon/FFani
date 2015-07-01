@@ -358,7 +358,7 @@ public class FFaniMation {
 
 
 	// Use this for initialization
-	public void Fire () {
+	public void Start () {
 		if (delayTime > 0.0f) {
 			currentTime = - delayTime;
 			FFaniManager.Instance().Play(this);

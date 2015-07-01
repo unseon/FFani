@@ -26,7 +26,7 @@ public class FFaniMoment {
 	}
 }
 
-public class FFaniSegue {
+public class FFaniMomentMation {
 	public string from;
 	public string to;
 
@@ -36,7 +36,7 @@ public class FFaniSegue {
 		UpdateTarget (moment);
 
 		for(int i = 0; i < animList.Count; i++) {
-			animList[i].Fire ();
+			animList[i].Start ();
 		}
 	}
 
@@ -68,7 +68,7 @@ public class FFaniSegue {
 public class FFaniMomentMap {
 	Dictionary<string, FFaniMoment> moments = new Dictionary<string, FFaniMoment>();
 
-	List<FFaniSegue> momentLinks = new List<FFaniSegue>();
+	List<FFaniMomentMation> momentMations = new List<FFaniMomentMation>();
 
 	private FFaniMoment currentMoment;
 	public string moment {
@@ -79,7 +79,7 @@ public class FFaniMomentMap {
 			string prevMoment = currentMoment.name;
 			currentMoment = moments[value];
 
-			FFaniSegue link = FindMomentLink(prevMoment, moment);
+			FFaniMomentMation link = FindMomentMation(prevMoment, moment);
 
 			if (link != null) {
 				link.StartTo(currentMoment);
@@ -94,16 +94,16 @@ public class FFaniMomentMap {
 		moments[""] = currentMoment;
 	}
 
-	public void Add(FFaniMoment moment) {
+	public void AddMoment(FFaniMoment moment) {
 		moments[moment.name] = moment;
 	}
 
-	public void AddLink(FFaniSegue link) {
-		momentLinks.Insert(0, link);
+	public void AddMomentMation(FFaniMomentMation link) {
+		momentMations.Insert(0, link);
 	}
 
-	public FFaniSegue FindMomentLink(string from, string to) {
-		FFaniSegue link = momentLinks.Find (item => (item.from == from || item.from == "*" ) && (item.to == to || item.to == "*"));
+	public FFaniMomentMation FindMomentMation(string from, string to) {
+		FFaniMomentMation link = momentMations.Find (item => (item.from == from || item.from == "*" ) && (item.to == to || item.to == "*"));
 
 		return link;
 	}

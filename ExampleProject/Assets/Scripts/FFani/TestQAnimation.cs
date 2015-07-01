@@ -101,11 +101,11 @@ public class TestQAnimation : MonoBehaviour {
 				to: 0.0f,
 				duration: 3.0f
 			)
-		).Remind( 
-        	() => {
+		).Remind(
+			()=> {
 				Debug.Log ("Serial.onFinished Callback lambda called");
 			}
-		).Fire();
+		).Start();
 
 
 //		anim01.start ();
