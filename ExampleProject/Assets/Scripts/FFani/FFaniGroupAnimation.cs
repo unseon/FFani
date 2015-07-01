@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class FFaniGroupAnimation : FFaniMation {
+	public FFaniGroupAnimation() {
+		duration = -1.0f;
+	}
+
 	public List<FFaniMation> animList = new List<FFaniMation>();
 	
 	public void Add(FFaniMation anim) {

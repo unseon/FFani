@@ -8,6 +8,13 @@ public class FFani {
 
 	public delegate void Callback();
 
+	public static FFaniMation Sleep(float duration) {
+		FFaniMation anim = new FFaniMation();
+		anim.duration = duration;
+
+		return anim;
+	}
+
 	public static FFaniMation Mation(Component target
 	                        , string propertyName
 	                        , object to = null

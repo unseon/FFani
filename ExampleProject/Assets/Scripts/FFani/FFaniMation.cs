@@ -432,8 +432,10 @@ public class FFaniMation {
 		}
 
 		if (state == "playing") {
-
 			OnUpdate(dt);
+			if (duration != -1 && currentTime >= duration) {
+				Finish();
+			}
 		}
 	}
 	
@@ -443,6 +445,6 @@ public class FFaniMation {
 	}
 	
 	virtual protected void OnUpdate(float delta) {
-		Debug.Log ("onUpdate");
+		//Debug.Log ("onUpdate");
 	}
 }

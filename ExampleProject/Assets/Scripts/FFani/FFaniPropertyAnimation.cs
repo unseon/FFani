@@ -69,9 +69,9 @@ public class FFaniPropertyAnimation : FFaniMation {
 
 		blendValue(easingTime);
 		
-		if (currentTime >= duration) {
-			Finish();
-		}
+//		if (currentTime >= duration) {
+//			Finish();
+//		}
 	}
 	
 	void defaultSetter(float t) {
