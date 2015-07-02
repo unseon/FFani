@@ -4,7 +4,7 @@ using System.Collections;
 using System.Reflection;
 
 // abstract PropertyInfo or FieldInfo
-public abstract class FFaniMember {
+public abstract class FFaniProperty {
 	public object obj;
 
 	public abstract Type getType();
@@ -12,13 +12,21 @@ public abstract class FFaniMember {
 	public abstract void setValue(object value);
 	public abstract string getName();
 //	public abstract object blend(object valueFrom, object valueTo, float t);
+
+	public bool isEqual(FFaniProperty that) {
+		if (this.obj == that.obj && this.getName () == that.getName ()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
-public class FFaniMemberFromProperty : FFaniMember {
+public class FFaniPropertyFromPropertyInfo : FFaniProperty {
 	PropertyInfo info;
 	//object obj;
 
-	public FFaniMemberFromProperty(object obj, MemberInfo memberInfo) {
+	public FFaniPropertyFromPropertyInfo(object obj, MemberInfo memberInfo) {
 		info = (PropertyInfo)memberInfo;
 		this.obj = obj;
 	}
@@ -46,11 +54,11 @@ public class FFaniMemberFromProperty : FFaniMember {
 	}
 }
 
-public class FFaniMemberFromField : FFaniMember {
+public class FFaniPropertyFromFieldInfo : FFaniProperty {
 	FieldInfo info;
 	//object obj;
 	
-	public FFaniMemberFromField(object obj, MemberInfo memberInfo) {
+	public FFaniPropertyFromFieldInfo(object obj, MemberInfo memberInfo) {
 		info = (FieldInfo)memberInfo;
 		this.obj = obj;
 	}
@@ -66,6 +74,7 @@ public class FFaniMemberFromField : FFaniMember {
 	public override void setValue(object value) {
 		try {
 			info.SetValue(obj, value);
+			//Debug.Log (info.Name + ":" + value);
 		} catch(Exception e) {
 			Debug.Log (e);
 		}

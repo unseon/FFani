@@ -8,7 +8,7 @@ public class FFaniManager : MonoBehaviour {
 	static private GameObject _gameObject = null;
 
 	// get the singleton instance
-	static public FFaniManager instance() {
+	static public FFaniManager Instance() {
 		if (_instance == null) {
 			_gameObject = new GameObject("FFaniManager");
 			_instance = _gameObject.AddComponent<FFaniManager>();
@@ -17,34 +17,37 @@ public class FFaniManager : MonoBehaviour {
 		return _instance;
 	}
 	
-	private List<FFaniAnimation> animList = new List<FFaniAnimation>();
+	private List<FFaniMation> animList = new List<FFaniMation>();
 	
 	public bool isPlaying = false;
 	
-	public void play(FFaniAnimation anim) {
+	public void Play(FFaniMation anim) {
 		animList.Add(anim);
-		
-		start ();
+
+		if (!isPlaying) {
+			StartCoroutine("Activate");
+		}
 	}
-	
-	public void start() {
-		StartCoroutine("activate");
+
+	public void Stop(FFaniMation anim) {
+		animList.Remove(anim);
 	}
-	
-	private IEnumerator activate() {
+
+	private IEnumerator Activate() {
 		isPlaying = true;
-		while(true) {
-			update();
+		while(animList.Count > 0) {
+			Tick();
 			yield return null;
 		}
 		
 		isPlaying = false;
+//		Debug.Log ("FFaniManager Stopped");
 	}
 	
-	private void update() {
+	private void Tick() {
 		float dt = Time.deltaTime;
 		for(int i = 0; i < animList.Count; i++) {
-			animList[i].updateDelta(dt);
+			animList[i].UpdateDelta(dt);
 		}
 	}
 }
