@@ -32,6 +32,29 @@ public class FFani {
 		return anim;
 	}
 
+	public static FFaniMation Prompt(Component target
+	                                 , string propertyName
+	                                 , object to)
+	{
+		FFaniPropertyAnimation anim = new FFaniPropertyAnimation();
+		anim.targetComponent = target;
+		anim.propertyName = propertyName;
+		anim.to = to;
+
+		anim.duration = 0.0f;
+
+		return anim;
+	}
+
+	public static FFaniMation Action(Callback action)
+	{
+		FFaniMation anim = new FFaniMation();
+		anim.duration = 0.0f;
+		anim.onStarted = action;
+		
+		return anim;
+	}
+
 	public static FFaniSerialAnimation Serial (params FFaniMation[] anims) {
 		FFaniSerialAnimation serial = new FFaniSerialAnimation();
 

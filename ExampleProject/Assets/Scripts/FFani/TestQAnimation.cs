@@ -89,6 +89,11 @@ public class TestQAnimation : MonoBehaviour {
 				propertyName: "material.color.b",
 				to: 1.0f
 			),
+			FFani.Action(
+				()=>{
+				Debug.Log ("FFani.Action!!!");
+				}
+			),
 			FFani.Mation(
 				target: tr,
 				propertyName: "pos",
@@ -98,11 +103,10 @@ public class TestQAnimation : MonoBehaviour {
 			FFani.Sleep(
 				duration: 2.0f
 			),
-			FFani.Mation(
+			FFani.Prompt(
 				target: tr,
 				propertyName: "py",
-				to: 0.0f,
-				duration: 3.0f
+				to: 0.0f
 			)
 		).Remind(
 			()=> {
