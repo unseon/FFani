@@ -25,52 +25,19 @@ public class TestQAnimation : MonoBehaviour {
 	void Awake () {
 		Transform tr = GameObject.Find ("Cube").transform;
 	
-		FFaniPropertyAnimation anim = new FFaniPropertyAnimation();
-		anim.targetComponent = GameObject.Find ("Cube").transform;
-//		anim.propertyName = "position.x";
-//		anim.valueTo = 15.0f;
+		FFaniDeltaAnimation danim = new FFaniDeltaAnimation();
+		danim.targetComponent = GameObject.Find ("Cube").transform;
+		danim.propertyName = "position.y";
+		danim.to = 5.0f;
+		danim.duration = 3.0f;
+		//danim.Start();
 
-//		anim.propertyName = "localRotation";
-//		anim.valueTo = Quaternion.Euler(179.0f, 0, 0);
-
-		anim.propertyName = "localRotation.eulerAngles.x";
-		anim.to = 350.0f;
-		anim.delayTime = 3.0f;
-		
-		//anim.valueTo = new Vector3(5.0f, 0, 0);
-		anim.duration = 5.0f;
-
-
-		//FFaniAnimation.Callback finishCallback = () => {Debug.Log ("onFinishCallback lambda called");};
-
-		//anim.onStartCallback = () => {Debug.Log ("onStartCallback lambda called");};
-		//anim.onFinishCallback = finishCallback;
-		
-		//anim.start();
-
-		FFaniPropertyAnimation anim01 = new FFaniPropertyAnimation();
-		anim01.targetComponent = GameObject.Find ("Cube").transform;
-		anim01.propertyName = "px";
-		anim01.to = 10.0f;
-		anim01.duration = 3.0f;
-		//anim01.easingFunction = Easing.InElastic;
-
-		FFaniPropertyAnimation anim02 = new FFaniPropertyAnimation();
-		anim02.targetComponent = GameObject.Find ("Cube").transform;
-		anim02.propertyName = "position.y";
-		anim02.to = 5.0f;
-		anim02.duration = 3.0f;
-		anim02.delayTime = 1.0f;
-
-//		FFaniSequentialAnimation seqAnim = new FFaniSequentialAnimation();
-//		seqAnim.add (anim01);
-//		seqAnim.add (anim02);
-//		seqAnim.start ();
-
-//		FFaniParallelAnimation parAnim = new FFaniParallelAnimation();
-//		parAnim.add (anim01);
-//		parAnim.add (anim02);
-//		parAnim.start ();
+		FFaniDeltaAnimation danim2 = new FFaniDeltaAnimation();
+		danim2.targetComponent = GameObject.Find ("Cube").transform;
+		danim2.propertyName = "ry";
+		danim2.from = -45.0f;
+		danim2.duration = 3.0f;
+		//danim2.Start();
 
 		FFani.Serial (
 			FFani.Mation(
@@ -112,7 +79,8 @@ public class TestQAnimation : MonoBehaviour {
 			()=> {
 				Debug.Log ("Serial.onFinished Callback lambda called");
 			}
-		).Start();
+		//).Start();
+		);
 
 
 //		anim01.start ();

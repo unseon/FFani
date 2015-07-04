@@ -24,8 +24,20 @@ public class FFaniManager : MonoBehaviour {
 	public void Play(FFaniMation anim) {
 		animList.Add(anim);
 
-		if (!isPlaying) {
-			StartCoroutine("Activate");
+		isPlaying = true;
+
+//		if (!isPlaying) {
+//			StartCoroutine("Activate");
+//		}
+	}
+
+	void Update() {
+		if (isPlaying == true) {
+			Tick ();
+
+			if (animList.Count == 0) {
+				isPlaying = false;
+			}
 		}
 	}
 
