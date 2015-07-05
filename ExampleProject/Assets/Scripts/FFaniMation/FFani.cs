@@ -25,6 +25,7 @@ public class FFani {
 		FFaniPropertyAnimation anim = new FFaniPropertyAnimation();
 		anim.targetComponent = target;
 		anim.propertyName = propertyName;
+		anim.from = from;
 		anim.to = to;
 		anim.duration = duration;
 		anim.delayTime = delayTime;
@@ -158,21 +159,33 @@ public class FFani {
 	}
 
 	public static Dictionary<string, string> transformShortName = new Dictionary<string, string> {
-		{"pos", "localPosition"},
-		{"px", "localPosition.x"},
-		{"py", "localPosition.y"},
-		{"pz", "localPosition.z"},
-		{"rot", "localRotation.eulerAngles"},
-		{"rx", "localRotation.eulerAngles.x"},
-		{"ry", "localRotation.eulerAngles.y"},
-		{"rz", "localRotation.eulerAngles.z"},
-		{"scl", "localScale"},
-		{"sx", "localScale.x"},
-		{"sy", "localScale.y"},
-		{"sz", "localScale.z"},
+		{"lpos", "localPosition"},
+		{"lpx", "localPosition.x"},
+		{"lpy", "localPosition.y"},
+		{"lpz", "localPosition.z"},
+		{"lrot", "localRotation.eulerAngles"},
+		{"lrx", "localRotation.eulerAngles.x"},
+		{"lry", "localRotation.eulerAngles.y"},
+		{"lrz", "localRotation.eulerAngles.z"},
+		{"lscl", "localScale"},
+		{"lsx", "localScale.x"},
+		{"lsy", "localScale.y"},
+		{"lsz", "localScale.z"},
 		{"wpos", "position"},
 		{"wpx", "position.x"},
 		{"wpy", "position.y"},
 		{"wpz", "position.z"},
+		{"wrot", "rotation.eulerAngles"},
+		{"wrx", "rotation.eulerAngles.x"},
+		{"wry", "rotation.eulerAngles.y"},
+		{"wrz", "rotation.eulerAngles.z"},
+		{"pos", "position"},
+		{"px", "position.x"},
+		{"py", "position.y"},
+		{"pz", "position.z"},
+		{"rot", "rotation.eulerAngles"},
+		{"rx", "rotation.eulerAngles.x"},
+		{"ry", "rotation.eulerAngles.y"},
+		{"rz", "rotation.eulerAngles.z"},
 	};
 }

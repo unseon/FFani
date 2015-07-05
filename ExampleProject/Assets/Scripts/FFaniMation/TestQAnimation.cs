@@ -24,7 +24,7 @@ public class TestQAnimation : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		Transform tr = GameObject.Find ("Cube").transform;
-	
+
 		FFaniDeltaAnimation danim = new FFaniDeltaAnimation();
 		danim.targetComponent = GameObject.Find ("Cube").transform;
 		danim.propertyName = "position.y";
@@ -40,11 +40,22 @@ public class TestQAnimation : MonoBehaviour {
 		//danim2.Start();
 
 		FFani.Serial (
+			FFani.Prompt(
+				target: GameObject.Find ("Text").GetComponent<Text>(),
+				propertyName: "enabled",
+				to: false
+			),
 			FFani.Mation(
 				target: GameObject.Find ("Panel").GetComponent<Image>(),
 				propertyName: "color.a",
-				to: 0.5f,
+				from: 1.0f,
+				to: 0.0f,
 				duration: 3.0f
+			),
+			FFani.Prompt(
+				target: GameObject.Find ("Text").GetComponent<Text>(),
+				propertyName: "enabled",
+				to: true
 			),
 			FFani.Mation(
 				target: GameObject.Find ("Cube").GetComponent<Renderer>(),
@@ -79,8 +90,7 @@ public class TestQAnimation : MonoBehaviour {
 			()=> {
 				Debug.Log ("Serial.onFinished Callback lambda called");
 			}
-		//).Start();
-		);
+		).Start();
 
 
 //		anim01.start ();
