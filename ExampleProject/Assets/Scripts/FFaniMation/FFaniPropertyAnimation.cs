@@ -65,7 +65,7 @@ public class FFaniPropertyAnimation : FFaniMation {
 
 		// t shuoud be in 0.0 ~ 1.0
 		float t = Mathf.Clamp(currentTime / duration, 0.0f, 1.0f);
-		float easingTime = easingFunction(t);
+		float easingTime = easingCurve(t);
 
 		blendValue(easingTime);
 		

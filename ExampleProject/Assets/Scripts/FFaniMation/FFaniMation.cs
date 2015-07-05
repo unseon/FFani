@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class Easing {
+public class FFaniEasing {
 	public static float Linear(float t) {
 		return t;
 	}
@@ -343,7 +343,7 @@ public class FFaniMation {
 
 	public delegate float EasingCurve(float t);
 
-	public EasingCurve easingFunction = Easing.Linear;
+	public EasingCurve easingCurve = FFaniEasing.Linear;
 
 	public FFani.Callback onStarted = null;
 	public FFani.Callback onFinished = null;
@@ -351,7 +351,7 @@ public class FFaniMation {
 
 	public float currentTime = 0.0f;
 	public float currentEasingTime = 0.0f;
-	public float delayTime = 0.0f;
+	public float delay = 0.0f;
 	public float duration = 0.0f;
 
 	public string state = "ready";
@@ -359,8 +359,8 @@ public class FFaniMation {
 
 	// Use this for initialization
 	public void Start () {
-		if (delayTime > 0.0f) {
-			currentTime = - delayTime;
+		if (delay > 0.0f) {
+			currentTime = - delay;
 			FFaniManager.Instance().Play(this);
 		} else {
 			currentTime = 0.0f;
@@ -374,8 +374,8 @@ public class FFaniMation {
 	}
 
 	public void Reset() {
-		if (delayTime > 0.0f) {
-			currentTime = - delayTime;
+		if (delay > 0.0f) {
+			currentTime = - delay;
 		} else {
 			currentTime = 0.0f;
 			Init();

@@ -40,7 +40,7 @@ public class FFaniFeedbackProperty : FFaniProperty {
 			FFaniFeedbackProperty valMember = (FFaniFeedbackProperty)subproperty;
 			valMember.setValue(value);
 
-			Debug.Log (valMember.property.obj);
+			//Debug.Log (valMember.property.obj);
 
 			// reassign submember.member.obj to member's value
 			property.setValue (valMember.property.obj);

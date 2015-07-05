@@ -77,6 +77,7 @@ public class TestQAnimation : MonoBehaviour {
 				propertyName: "pos",
 				to: new Vector3(10, 10, 0),
 				duration: 3.0f
+
 			),
 			FFani.Sleep(
 				duration: 2.0f

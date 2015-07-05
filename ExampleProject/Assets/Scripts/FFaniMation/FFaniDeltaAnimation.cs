@@ -90,10 +90,10 @@ public class FFaniDeltaAnimation : FFaniPropertyAnimation {
 
 		// t shuoud be in 0.0 ~ 1.0
 		float t = Mathf.Clamp(currentTime / duration, 0.0f, 1.0f);
-		float easingTime = easingFunction(t);
+		float easingTime = easingCurve(t);
 
 		float prevT = Mathf.Clamp((currentTime - delta) / duration, 0.0f, 1.0f);
-		float prevEasingTime = easingFunction(prevT);
+		float prevEasingTime = easingCurve(prevT);
 
 		float easingDelta = easingTime - prevEasingTime;
 

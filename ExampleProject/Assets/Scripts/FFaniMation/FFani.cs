@@ -20,7 +20,8 @@ public class FFani {
 	                        , object to = null
 	                        , object from = null
 	                        , float duration = 0.5f
-	                        , float delayTime = 0.0f)
+	                        , float delay = 0.0f
+	                        , FFaniMation.EasingCurve easingCurve = null)
 	{
 		FFaniPropertyAnimation anim = new FFaniPropertyAnimation();
 		anim.targetComponent = target;
@@ -28,7 +29,11 @@ public class FFani {
 		anim.from = from;
 		anim.to = to;
 		anim.duration = duration;
-		anim.delayTime = delayTime;
+		anim.delay = delay;
+
+		if (easingCurve != null) {
+			anim.easingCurve = easingCurve;
+		}
 
 		return anim;
 	}
