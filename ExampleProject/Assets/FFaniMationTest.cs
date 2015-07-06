@@ -21,7 +21,7 @@ public class FFaniMationTest : MonoBehaviour {
 		for (int i = 0; i < cubeCount; i++) {
 
 			if (i == cubeCount -1) {
-				FFani.Mation (
+				FFani.Tween (
 					target: objectList[i].GetComponent<Transform>(),
 					propertyName: "px",
 					to: 50,
@@ -31,7 +31,7 @@ public class FFaniMationTest : MonoBehaviour {
 				).Start ();
 			}
 
-			FFani.Mation (
+			FFani.Tween (
 				target: objectList[i].GetComponent<Transform>(),
 				propertyName: "px",
 				to: 50,

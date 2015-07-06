@@ -365,6 +365,8 @@ public class FFaniMation {
 		} else {
 			currentTime = 0.0f;
 			Init();
+			UpdateDelta(0.0f);
+
 			FFaniManager.Instance().Play(this);
 
 			if (onStarted != null) {

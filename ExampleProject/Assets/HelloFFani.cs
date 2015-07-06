@@ -25,18 +25,20 @@ public class HelloFFani : MonoBehaviour {
 //			)
 //		).Start ();
 
-		FFani.Mation (
+		FFani.Tween (
 			target: transform,
 			propertyName: "px",
+			from: -5.0f,
 			to: 5.0f,
 			delay: 2.0f,
 			duration: 2.0f,
 			easingCurve: FFaniEasing.OutCubic
 		).Start ();
 
-		FFani.Mation (
+		FFani.Tween (
 			target: GameObject.Find ("Cube01").GetComponent<Transform>(),
 			propertyName: "px",
+			from: -5.0f,
 			to: 5.0f,
 			delay: 2.0f,
 			duration: 2.0f

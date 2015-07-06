@@ -45,7 +45,7 @@ public class TestQAnimation : MonoBehaviour {
 				propertyName: "enabled",
 				to: false
 			),
-			FFani.Mation(
+			FFani.Tween(
 				target: GameObject.Find ("Panel").GetComponent<Image>(),
 				propertyName: "color.a",
 				from: 1.0f,
@@ -57,12 +57,12 @@ public class TestQAnimation : MonoBehaviour {
 				propertyName: "enabled",
 				to: true
 			),
-			FFani.Mation(
+			FFani.Tween(
 				target: GameObject.Find ("Cube").GetComponent<Renderer>(),
 				propertyName: "material.color",
 				to: new Color(0, 1, 0)
 			),
-			FFani.Mation(
+			FFani.Tween(
 				target: GameObject.Find ("Cube").GetComponent<Renderer>(),
 				propertyName: "material.color.b",
 				to: 1.0f
@@ -72,7 +72,7 @@ public class TestQAnimation : MonoBehaviour {
 				Debug.Log ("FFani.Action!!!");
 				}
 			),
-			FFani.Mation(
+			FFani.Tween(
 				target: tr,
 				propertyName: "pos",
 				to: new Vector3(10, 10, 0),

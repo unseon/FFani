@@ -15,7 +15,7 @@ public class FFani {
 		return anim;
 	}
 
-	public static FFaniMation Mation(Component target
+	public static FFaniMation Tween(Component target
 	                        , string propertyName
 	                        , object to = null
 	                        , object from = null
