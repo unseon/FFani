@@ -8,7 +8,7 @@ public class FFaniDeltaAnimation : FFaniPropertyAnimation {
 	public delegate void DeltaBlender(float t, float dt);
 	public DeltaBlender blendDeltaValue;
 
-	override protected void Init () {
+	override public void Init () {
 		state = "playing";
 
 		if (targetComponent == null) {
@@ -85,7 +85,7 @@ public class FFaniDeltaAnimation : FFaniPropertyAnimation {
 		}
 	}
 	
-	override protected void OnUpdate(float delta) {
+	override protected void OnUpdatePlay(float delta) {
 		//Debug.Log (currentTime);
 
 		// t shuoud be in 0.0 ~ 1.0

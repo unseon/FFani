@@ -346,7 +346,7 @@ public class FFaniMation {
 	public EasingCurve easingCurve = FFaniEasing.Linear;
 
 	public FFani.Callback onStarted = null;
-	public FFani.Callback onFinished = null;
+	public FFani.Callback onCompleted = null;
 	public FFani.Callback onStopped = null;
 
 	public float currentTime = 0.0f;
@@ -360,12 +360,13 @@ public class FFaniMation {
 	// Use this for initialization
 	public void Start () {
 		if (delay > 0.0f) {
+			state = "deaying";
 			currentTime = - delay;
 			FFaniManager.Instance().Play(this);
 		} else {
 			currentTime = 0.0f;
 			Init();
-			UpdateDelta(0.0f);
+			Update(0.0f);
 
 			FFaniManager.Instance().Play(this);
 
@@ -377,52 +378,63 @@ public class FFaniMation {
 
 	public void Reset() {
 		if (delay > 0.0f) {
+			state = "delaying";
 			currentTime = - delay;
 		} else {
 			currentTime = 0.0f;
 			Init();
-			
+
 			if (onStarted != null) {
 				onStarted();
 			}
+
+			Update(0.0f);
 		}
 	}
 
 	public void Stop() {
 		//Debug.Log ("Stopped");
-		FFaniManager.Instance().Stop(this);
-		state = "stop";
+		//FFaniManager.Instance().Stop(this);
+		state = "stopped";
 		if (onStopped != null) {
 			onStopped();
 		}
 	}
 
-	protected void Finish() {
-		//Debug.Log ("Finished");
-		FFaniManager.Instance().Stop(this);
-		state = "finished";
-		if (onFinished != null) {
-			onFinished();
+	virtual public void Complete() {
+		Debug.Log ("completed");
+
+		if (state == "completed") {
+			return;
+		}
+
+		state = "completed";
+
+		currentTime = duration;
+		OnUpdatePlay (0.0f);
+
+		if (onCompleted != null) {
+			onCompleted();
 		}
 	}
 
-	public FFaniMation Remind(FFani.Callback onFinished, 
+	public FFaniMation Remind(FFani.Callback onCompleted, 
 	                          FFani.Callback onStarted = null,
 	                          FFani.Callback onStopped = null) {
-		this.onFinished += onFinished;
+		this.onCompleted += onCompleted;
 		this.onStarted += onStarted;
 		this.onStopped += onStopped;
 
 		return this;
 	}
 
-	virtual protected void Init() {
+	virtual public void Init() {
 		state = "playing";
 		//Debug.Log ("onStart");
 	}
 	
 	// Update is called once per frame from FFaniManager
-	public void UpdateDelta (float dt) {
+	public void Update (float dt) {
 		currentTime += dt;
 
 		if (state == "ready" && currentTime > 0) {
@@ -434,19 +446,25 @@ public class FFaniMation {
 		}
 
 		if (state == "playing") {
-			OnUpdate(dt);
+			OnUpdatePlay(dt);
 			if (duration != -1 && currentTime >= duration) {
-				Finish();
+				state = "completed";
+			}
+
+			if (state == "completed") {
+				if (onCompleted != null) {
+					onCompleted();
+				}
 			}
 		}
 	}
 	
 	public void UpdateTo(float time) {
 		currentTime = time;
-		OnUpdate (0.0f);
+		OnUpdatePlay (0.0f);
 	}
 	
-	virtual protected void OnUpdate(float delta) {
+	virtual protected void OnUpdatePlay(float delta) {
 		//Debug.Log ("onUpdate");
 	}
 }

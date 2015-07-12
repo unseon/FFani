@@ -29,7 +29,7 @@ public class FFaniPropertyAnimation : FFaniMation {
 	public delegate void Blender(float t);
 	public Blender blendValue;
 	
-	override protected void Init () {
+	override public void Init () {
 		base.Init();
 
 		if (targetComponent == null) {
@@ -60,12 +60,18 @@ public class FFaniPropertyAnimation : FFaniMation {
 		}
 	}
 	
-	override protected void OnUpdate(float delta) {
+	override protected void OnUpdatePlay(float delta) {
 		//Debug.Log (currentTime);
 
 		// t shuoud be in 0.0 ~ 1.0
 		float t = Mathf.Clamp(currentTime / duration, 0.0f, 1.0f);
+
 		float easingTime = easingCurve(t);
+
+
+		if (blendValue == null) {
+			Debug.Log ("blendValue is null");
+		}
 
 		blendValue(easingTime);
 		

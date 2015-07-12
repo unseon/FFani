@@ -59,7 +59,12 @@ public class FFaniManager : MonoBehaviour {
 	private void Tick() {
 		float dt = Time.deltaTime;
 		for(int i = 0; i < animList.Count; i++) {
-			animList[i].UpdateDelta(dt);
+			FFaniMation anim = animList[i];
+			anim.Update(dt);
+
+			if (anim.state == "completed" || anim.state == "stopped") {
+				Stop (anim);
+			}
 		}
 	}
 }

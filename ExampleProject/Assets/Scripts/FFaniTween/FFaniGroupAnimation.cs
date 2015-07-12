@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -18,7 +18,7 @@ public class FFaniParallelAnimation : FFaniGroupAnimation {
 
 	List<FFaniMation> runningAnimList;
 
-	override protected void Init () {
+	override public void Init () {
 		base.Init();
 
 		runningAnimList = new List<FFaniMation>(animList);
@@ -28,17 +28,17 @@ public class FFaniParallelAnimation : FFaniGroupAnimation {
 		}
 	}
 
-	override protected void OnUpdate(float delta) {
+	override protected void OnUpdatePlay(float delta) {
 		for (int i = 0; i < runningAnimList.Count; i++) {
-			runningAnimList[i].UpdateDelta(delta);
-			if (runningAnimList[i].state == "finished") {
+			runningAnimList[i].Update(delta);
+			if (runningAnimList[i].state == "completed") {
 				runningAnimList.RemoveAt(i);
 				i--;
 			}
 		}
 
 		if (runningAnimList.Count == 0) {
-			Finish ();
+			Complete ();
 		}
 	}
 }
@@ -47,7 +47,7 @@ public class FFaniSerialAnimation : FFaniGroupAnimation {
 
 	int activeAnimNumber = -1;
 
-	override protected void Init () {
+	override public void Init () {
 		base.Init();
 
 		if (animList.Count > 0) {
@@ -56,25 +56,57 @@ public class FFaniSerialAnimation : FFaniGroupAnimation {
 		}
 	}
 
-	override protected void OnUpdate(float delta) {
+	override protected void OnUpdatePlay(float delta) {
 		//Debug.Log ("seq currentTime: " + currentTime);
 
 		FFaniMation currentAnim = animList[activeAnimNumber];
 
 		float prevTime = currentAnim.currentTime;
-		currentAnim.UpdateDelta(delta);
+		currentAnim.Update(delta);
 
-		if (currentAnim.state == "finished") {
+		while (currentAnim.state == "completed") {
 			float newDelta = prevTime + delta - currentAnim.duration;
 			activeAnimNumber++;
 
 			if (activeAnimNumber < animList.Count) {
 				currentAnim = animList[activeAnimNumber];
 				currentAnim.Reset ();
-				currentAnim.UpdateDelta(newDelta);
+				currentAnim.Update(newDelta);
 			} else {
-				Finish();
+				state = "completed";
+				break;
 			}
+		}
+	}
+
+	override public void Complete() {
+		//Debug.Log ("completed");
+		
+		if (state == "completed") {
+			return;
+		}
+		
+		state = "completed";
+		currentTime = duration;
+
+		for (int i = activeAnimNumber; i < animList.Count; i++) {
+			FFaniMation anim = animList[i];
+
+			if (anim.state == "ready" || anim.state == "delaying") {
+				anim.Init();
+				
+				if (onStarted != null) {
+					anim.onStarted();
+				}
+			}
+
+			if (anim.state == "playing") {
+				anim.Complete();
+			}
+		}
+
+		if (onCompleted != null) {
+			onCompleted();
 		}
 	}
 }
