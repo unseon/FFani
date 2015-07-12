@@ -8,6 +8,16 @@ public class FFani {
 
 	public delegate void Callback();
 
+	public static FFaniStepAnimation Step(params FFaniMation[] anims) {
+		FFaniStepAnimation step = new FFaniStepAnimation();
+		
+		for (int i = 0; i < anims.Length; i++) {
+			step.Add (anims[i]);
+		}
+		
+		return step;
+	}
+
 	public static FFaniMation Sleep(float duration) {
 		FFaniMation anim = new FFaniMation();
 		anim.duration = duration;

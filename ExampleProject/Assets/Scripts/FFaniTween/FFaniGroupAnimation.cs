@@ -45,7 +45,7 @@ public class FFaniParallelAnimation : FFaniGroupAnimation {
 
 public class FFaniSerialAnimation : FFaniGroupAnimation {
 
-	int activeAnimNumber = -1;
+	protected int activeAnimNumber = -1;
 
 	override public void Init () {
 		base.Init();
@@ -71,6 +71,7 @@ public class FFaniSerialAnimation : FFaniGroupAnimation {
 			if (activeAnimNumber < animList.Count) {
 				currentAnim = animList[activeAnimNumber];
 				currentAnim.Reset ();
+				prevTime = newDelta;
 				currentAnim.Update(newDelta);
 			} else {
 				state = "completed";
@@ -107,6 +108,72 @@ public class FFaniSerialAnimation : FFaniGroupAnimation {
 
 		if (onCompleted != null) {
 			onCompleted();
+		}
+	}
+}
+
+public class FFaniStepAnimation : FFaniSerialAnimation {
+	public float interval {
+		get {
+			return intervalRest.duration;
+		}
+
+		set {
+			intervalRest.duration = value;
+		}
+	}
+
+	FFaniMation activeAnim;
+	private FFaniMation intervalRest = new FFaniMation();
+
+	public FFaniStepAnimation SetInterval(float interval = 0.0f) {
+		this.interval = interval;
+
+		return this;
+	}
+
+	override public void Init () {
+		base.Init();
+
+		if (animList.Count > 0) {
+			activeAnim = animList[0];
+		}
+	}
+
+	public void Next() {
+		activeAnim.Complete();
+	}
+
+	override protected void OnUpdatePlay(float delta) {
+		//Debug.Log ("seq currentTime: " + currentTime);
+
+		float prevTime = activeAnim.currentTime;
+
+		if (activeAnim.state != "completed") {
+			activeAnim.Update(delta);
+		}
+		
+		while (activeAnim.state == "completed") {
+			float newDelta = Mathf.Max(0.0f, prevTime + delta - activeAnim.duration);
+
+			if (activeAnimNumber < animList.Count - 1) {
+				// if current anim is not last one
+
+				if (activeAnim == intervalRest) {
+					activeAnimNumber++;
+					activeAnim = animList[activeAnimNumber];
+					Debug.Log (activeAnimNumber + " reset ");
+				} else {
+					activeAnim = intervalRest;
+				}
+
+				activeAnim.Reset ();
+				prevTime = newDelta;
+				activeAnim.Update(newDelta);
+			} else {
+				state = "completed";
+				break;
+			}
 		}
 	}
 }

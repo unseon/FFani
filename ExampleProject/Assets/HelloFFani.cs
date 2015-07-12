@@ -8,7 +8,7 @@ public class HelloFFani : MonoBehaviour {
 	void Start () {
 
 		anim = 
-			FFani.Serial (
+			FFani.Step (
 				FFani.Tween (
 					target: transform,
 					propertyName: "lry",
@@ -26,7 +26,7 @@ public class HelloFFani : MonoBehaviour {
 					to: 5.0f,
 					duration: 2.0f
 				)
-			);
+			).SetInterval(0.0f);
 		anim.Start ();
 
 //		FFani.Tween (
