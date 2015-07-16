@@ -360,7 +360,7 @@ public class FFaniMation {
 	// Use this for initialization
 	public void Start () {
 		if (delay > 0.0f) {
-			state = "deaying";
+			state = "delaying";
 			currentTime = - delay;
 			FFaniManager.Instance().Play(this);
 		} else {
@@ -437,7 +437,7 @@ public class FFaniMation {
 	public void Update (float dt) {
 		currentTime += dt;
 
-		if (state == "ready" && currentTime > 0) {
+		if (state == "delaying" && currentTime > 0) {
 			Init();
 
 			if (onStarted != null) {

@@ -144,6 +144,12 @@ public class FFaniStepAnimation : FFaniSerialAnimation {
 		activeAnim.Complete();
 	}
 
+	public FFaniStepAnimation SetSkipTrigger(ref FFani.Callback trigger) {
+		trigger += Next;
+
+		return this;
+	}
+
 	override protected void OnUpdatePlay(float delta) {
 		//Debug.Log ("seq currentTime: " + currentTime);
 

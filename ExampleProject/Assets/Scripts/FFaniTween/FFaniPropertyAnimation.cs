@@ -47,14 +47,16 @@ public class FFaniPropertyAnimation : FFaniMation {
 			from = value;
 		}
 
-		if (member.getType() == typeof(Vector3)) {
+		if (member.getType() == typeof(float)) {
+			blendValue = blendNumber;
+		} else if (member.getType() == typeof(Vector3)) {
 			blendValue = blendVector3;
+		} else if (member.getType() == typeof(Vector2)) {
+			blendValue = blendVector2;
 		} else if (member.getType() == typeof(Color)) {
 			blendValue = blendColor;
 		} else if (member.getType() == typeof(Quaternion)) {
 			blendValue = blendQuaternion;
-		} else if (member.getType() == typeof(float)) {
-			blendValue = blendNumber;
 		} else {
 			blendValue = defaultSetter;
 		}
@@ -91,6 +93,14 @@ public class FFaniPropertyAnimation : FFaniMation {
 		float vFrom = Convert.ToSingle (from);
 		
 		float newValue = vTo * t + vFrom * (1.0f - t);
+		member.setValue(newValue);
+	}
+
+	void blendVector2(float t) {
+		Vector2 vTo = (Vector2)to;
+		Vector2 vFrom = (Vector2)from;
+		
+		Vector2 newValue = Vector2.Lerp (vFrom, vTo, t);
 		member.setValue(newValue);
 	}
 	
