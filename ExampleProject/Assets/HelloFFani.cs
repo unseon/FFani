@@ -45,24 +45,22 @@ public class HelloFFani : MonoBehaviour {
 //		anim.Start ();
 		//testTrigger.OnClick += anim.Next;
 
-//		FFani.Tween (
-//			target: transform,
-//			propertyName: "px",
-//			from: -5.0f,
-//			to: 5.0f,
-//			delay: 2.0f,
-//			duration: 2.0f,
-//			easingCurve: FFaniEasing.OutCubic
-//		).Start ();
-//
 		FFani.Tween (
-			target: GameObject.Find ("Panel").GetComponent<RectTransform>(),
-			propertyName: "anchoredPosition.x",
-			from: -50.0f,
-			to: 50.0f,
-			delay: 2.0f,
-			duration: 2.0f
+			target: transform,
+			propertyName: "px",
+			to: 5.0f,
+			duration: 2.0f,
+			easingCurve: FFaniEasing.InOutExpo
 		).Start ();
+//
+//		FFani.Tween (
+//			target: GameObject.Find ("Panel").GetComponent<RectTransform>(),
+//			propertyName: "anchoredPosition.x",
+//			from: -50.0f,
+//			to: 50.0f,
+//			delay: 2.0f,
+//			duration: 2.0f
+//		).Start ();
 
 		GameObject.Find ("Panel").GetComponent<RectTransform>().anchoredPosition = new Vector2(50, 50);
 

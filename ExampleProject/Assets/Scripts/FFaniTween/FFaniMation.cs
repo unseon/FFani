@@ -154,12 +154,11 @@ public class FFaniEasing {
 	}
 
 	public static float InExpo(float t) {
-		return Mathf.Pow(2.0f, t);
+		return Mathf.Pow(2.0f, 10.0f * (t - 1.0f)) - 0.001f;
 	}
 	
 	public static float OutExpo(float t) {
-		t = 1.0f - t;
-		return 1.0f - Mathf.Pow(2.0f, t);
+		return - Mathf.Pow(2.0f, -10.0f * t) + 1;
 	}
 	
 	public static float InOutExpo(float t) {
