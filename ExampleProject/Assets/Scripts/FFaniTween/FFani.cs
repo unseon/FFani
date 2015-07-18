@@ -71,6 +71,18 @@ public class FFani {
 		return anim;
 	}
 
+	public static FFaniMation Activate(GameObject target
+	                                    , bool active)
+	{
+		FFaniMation anim = new FFaniMation();
+		anim.duration = 0.0f;
+		anim.onStarted = () => {
+			target.SetActive(active);
+		};
+		
+		return anim;
+	}
+
 	public static FFaniSerialAnimation Serial (params FFaniMation[] anims) {
 		FFaniSerialAnimation serial = new FFaniSerialAnimation();
 

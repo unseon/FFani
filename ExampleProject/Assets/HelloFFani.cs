@@ -45,12 +45,18 @@ public class HelloFFani : MonoBehaviour {
 //		anim.Start ();
 		//testTrigger.OnClick += anim.Next;
 
-		FFani.Tween (
-			target: transform,
-			propertyName: "px",
-			to: 5.0f,
-			duration: 2.0f,
-			easingCurve: FFaniEasing.InOutExpo
+		FFani.Serial (
+			FFani.Tween (
+				target: transform,
+				propertyName: "px",
+				to: 5.0f,
+				duration: 2.0f,
+				easingCurve: FFaniEasing.InOutExpo
+			),
+			FFani.Activate (
+				GameObject.Find ("Panel"),
+				false
+			)
 		).Start ();
 //
 //		FFani.Tween (
