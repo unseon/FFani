@@ -21,6 +21,11 @@ public class FFaniParallelAnimation : FFaniGroupAnimation {
 	override public void Init () {
 		base.Init();
 
+		if (animList.Count == 0) {
+			Complete();
+			return;
+		}
+
 		runningAnimList = new List<FFaniMation>(animList);
 
 		for (int i = 0; i < runningAnimList.Count; i++) {
@@ -45,7 +50,7 @@ public class FFaniParallelAnimation : FFaniGroupAnimation {
 
 public class FFaniSerialAnimation : FFaniGroupAnimation {
 
-	protected int activeAnimNumber = -1;
+	protected int activeAnimNumber = 0;
 
 	override public void Init () {
 		base.Init();
@@ -65,14 +70,17 @@ public class FFaniSerialAnimation : FFaniGroupAnimation {
 		currentAnim.Update(delta);
 
 		while (currentAnim.state == "completed") {
-			float newDelta = prevTime + delta - currentAnim.duration;
+			//float newDelta = prevTime + delta - currentAnim.duration;
 			activeAnimNumber++;
 
 			if (activeAnimNumber < animList.Count) {
 				currentAnim = animList[activeAnimNumber];
 				currentAnim.Reset ();
-				prevTime = newDelta;
-				currentAnim.Update(newDelta);
+//				prevTime = newDelta;
+//				currentAnim.Update(newDelta);
+				prevTime = 0.0f;
+				currentAnim.Update(0.0f);
+
 			} else {
 				state = "completed";
 				break;
@@ -137,11 +145,18 @@ public class FFaniStepAnimation : FFaniSerialAnimation {
 
 		if (animList.Count > 0) {
 			activeAnim = animList[0];
+		} else {
+			Complete();
+			return;
 		}
 	}
 
 	public void Next() {
-		activeAnim.Complete();
+		if (activeAnim != null) {
+			activeAnim.Complete();
+		} else {
+			state = "completed";
+		}
 	}
 
 	public FFaniStepAnimation SetSkipTrigger(ref FFani.Callback trigger) {
@@ -160,7 +175,7 @@ public class FFaniStepAnimation : FFaniSerialAnimation {
 		}
 		
 		while (activeAnim.state == "completed") {
-			float newDelta = Mathf.Max(0.0f, prevTime + delta - activeAnim.duration);
+			//float newDelta = Mathf.Max(0.0f, prevTime + delta - activeAnim.duration);
 
 			if (activeAnimNumber < animList.Count - 1) {
 				// if current anim is not last one
@@ -174,9 +189,12 @@ public class FFaniStepAnimation : FFaniSerialAnimation {
 				}
 
 				activeAnim.Reset ();
-				prevTime = newDelta;
-				activeAnim.Update(newDelta);
+//				prevTime = newDelta;
+//				activeAnim.Update(newDelta);
+				prevTime = 0.0f;
+				activeAnim.Update(0.0f);
 			} else {
+				activeAnim = null;
 				state = "completed";
 				break;
 			}

@@ -355,6 +355,8 @@ public class FFaniMation {
 
 	public string state = "ready";
 
+	public bool isDebug = false;
+
 
 	// Use this for initialization
 	public void Start () {
@@ -432,9 +434,17 @@ public class FFaniMation {
 		//Debug.Log ("onStart");
 	}
 	
-	// Update is called once per frame from FFaniManager
+	// Update is called once per frame from FFaniManager or FFaniGroupAnimation
 	public void Update (float dt) {
 		currentTime += dt;
+
+
+		if (isDebug) {
+			if (Mathf.Abs(currentTime - dt) < 0.0001 && dt != 0) {
+
+				Debug.Log (this.GetType() + " currentTime: " + currentTime + ", dt: " + dt);
+			}
+		}
 
 		if (state == "delaying" && currentTime > 0) {
 			Init();

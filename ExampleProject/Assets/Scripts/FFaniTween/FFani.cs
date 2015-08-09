@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System;
 
 public class FFani {
-
+	
 	public delegate void Callback();
-
+	
 	public static FFaniStepAnimation Step(params FFaniMation[] anims) {
 		FFaniStepAnimation step = new FFaniStepAnimation();
 		
@@ -17,21 +17,22 @@ public class FFani {
 		
 		return step;
 	}
-
+	
 	public static FFaniMation Sleep(float duration) {
 		FFaniMation anim = new FFaniMation();
 		anim.duration = duration;
-
+		
 		return anim;
 	}
-
+	
 	public static FFaniMation Tween(Component target
-	                        , string propertyName
-	                        , object to = null
-	                        , object from = null
-	                        , float duration = 0.5f
-	                        , float delay = 0.0f
-	                        , FFaniMation.EasingCurve easingCurve = null)
+	                                , string propertyName
+	                                , object to = null
+	                                , object from = null
+	                                , float duration = 0.5f
+	                                , float delay = 0.0f
+	                                , FFaniMation.EasingCurve easingCurve = null
+	                                , bool isDebug = false)
 	{
 		FFaniPropertyAnimation anim = new FFaniPropertyAnimation();
 		anim.targetComponent = target;
@@ -40,14 +41,15 @@ public class FFani {
 		anim.to = to;
 		anim.duration = duration;
 		anim.delay = delay;
-
+		anim.isDebug = isDebug;
+		
 		if (easingCurve != null) {
 			anim.easingCurve = easingCurve;
 		}
-
+		
 		return anim;
 	}
-
+	
 	public static FFaniMation Prompt(Component target
 	                                 , string propertyName
 	                                 , object to)
@@ -56,12 +58,12 @@ public class FFani {
 		anim.targetComponent = target;
 		anim.propertyName = propertyName;
 		anim.to = to;
-
+		
 		anim.duration = 0.0f;
-
+		
 		return anim;
 	}
-
+	
 	public static FFaniMation Action(Callback action)
 	{
 		FFaniMation anim = new FFaniMation();
@@ -70,9 +72,9 @@ public class FFani {
 		
 		return anim;
 	}
-
+	
 	public static FFaniMation Activate(GameObject target
-	                                    , bool active)
+	                                   , bool active)
 	{
 		FFaniMation anim = new FFaniMation();
 		anim.duration = 0.0f;
@@ -82,17 +84,17 @@ public class FFani {
 		
 		return anim;
 	}
-
+	
 	public static FFaniSerialAnimation Serial (params FFaniMation[] anims) {
 		FFaniSerialAnimation serial = new FFaniSerialAnimation();
-
+		
 		for (int i = 0; i < anims.Length; i++) {
 			serial.Add (anims[i]);
 		}
-
+		
 		return serial;
 	}
-
+	
 	public static FFaniParallelAnimation Parallel (params FFaniMation[] anims) {
 		FFaniParallelAnimation parAnim = new FFaniParallelAnimation();
 		
@@ -104,7 +106,7 @@ public class FFani {
 	}
 	
 	public static FFaniProperty CreateMember(object target, string propertyName) {
-	
+		
 		try {
 			MemberInfo mi = target.GetType().GetMember(propertyName)[0];
 			
@@ -115,14 +117,14 @@ public class FFani {
 			} else {
 				return null;
 			}
-		
+			
 		} catch(Exception e) {
 			Debug.Log (e);
 			Debug.Log ("propertyName: " + propertyName);
 			
 			return null;
-        }
-			           
+		}
+		
 	}
 	
 	public static FFaniProperty createValueTypeMember(FFaniProperty member, List<string> names) {
@@ -144,14 +146,14 @@ public class FFani {
 		if (member.getType().IsValueType) {
 			return createValueTypeMember(member, names);
 		} else {
-		
+			
 			if (names.Count == 1) {
 				// if this name is the last name, create FFaniMember object. 
 				return CreateMember (member.getValue(), names[0]);
 			} else {
 				// recursive call to get FFaniMember for the last member name.	
 				FFaniProperty subMember = CreateMember(member.getValue(), names[0]);
-			
+				
 				names.RemoveAt(0);
 				
 				return getTargetMember (subMember, names);
@@ -163,7 +165,7 @@ public class FFani {
 		if (target == null || propertyName == null) {
 			return null;
 		}
-
+		
 		// replace short name of Transform with real name;
 		if (target.GetType() == typeof(Transform) &&
 		    transformShortName.ContainsKey(propertyName))
@@ -184,7 +186,7 @@ public class FFani {
 		
 		return getTargetMember (member, names);
 	}
-
+	
 	public static Dictionary<string, string> transformShortName = new Dictionary<string, string> {
 		{"lpos", "localPosition"},
 		{"lpx", "localPosition.x"},

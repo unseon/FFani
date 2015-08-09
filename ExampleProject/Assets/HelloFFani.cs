@@ -21,52 +21,31 @@ public class HelloFFani : MonoBehaviour {
 	void Start () {
 
 
-//		anim = 
-//			FFani.Step (
-//				FFani.Tween (
-//					target: transform,
-//					propertyName: "lry",
-//					to: 360.0f,
-//					duration: 2.0f
-//				),
-//				FFani.Tween(
-//					target: transform,
-//					propertyName: "py",
-//					to: 5.0f
-//				),
-//				FFani.Tween (
-//					target: transform,
-//					propertyName: "px",
-//					to: 5.0f,
-//					duration: 2.0f
-//				)
-//			).SetInterval(2.0f)
-//			.SetSkipTrigger(ref OnClick);
-//		anim.Start ();
-		//testTrigger.OnClick += anim.Next;
-
-		FFani.Serial (
-			FFani.Tween (
-				target: transform,
-				propertyName: "px",
-				to: 5.0f,
-				duration: 2.0f,
-				easingCurve: FFaniEasing.InOutExpo
-			),
-			FFani.Activate (
-				GameObject.Find ("Panel"),
-				false
-			)
-		).Start ();
-//
-//		FFani.Tween (
-//			target: GameObject.Find ("Panel").GetComponent<RectTransform>(),
-//			propertyName: "anchoredPosition.x",
-//			from: -50.0f,
-//			to: 50.0f,
-//			delay: 2.0f,
-//			duration: 2.0f
-//		).Start ();
+		anim = 
+			FFani.Step (
+				FFani.Tween (
+					target: transform,
+					propertyName: "lry",
+					to: 360.0f,
+					duration: 2.0f
+				),
+				FFani.Serial (
+					FFani.Tween(
+						target: transform,
+						propertyName: "py",
+						to: 5.0f
+					)
+				),
+				FFani.Tween (
+					target: transform,
+					propertyName: "px",
+					to: 5.0f,
+					duration: 2.0f
+				)
+			).SetInterval(2.0f)
+			.SetSkipTrigger(ref OnClick);
+		anim.Start ();
+//		testTrigger.OnClick += anim.Next;
 
 		GameObject.Find ("Panel").GetComponent<RectTransform>().anchoredPosition = new Vector2(50, 50);
 
