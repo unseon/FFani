@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 
 public class FFaniSignal {
-	private Action emit;
+	public Action emit;
 
 	public void connect(Action action) {
 		emit += action;
@@ -14,7 +14,6 @@ public class FFaniSignal {
 		emit -= action;
 	}
 }
-
 
 public class FFaniTransition {
 	string name;
