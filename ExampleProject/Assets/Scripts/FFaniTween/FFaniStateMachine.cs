@@ -13,6 +13,10 @@ public class FFaniSignal {
 	public void disconnect(Action action) {
 		emit -= action;
 	}
+
+	public bool isConnected() {
+		return emit != null;
+	}
 }
 
 public class FFaniTransition {
@@ -118,12 +122,29 @@ public class FFaniTransition {
 	}
 
 	public void setSignal(FFaniSignal signal) {
+
+		Action prevAction = null;
+
 		connectSignal = () => {
 			//Debug.Log("connect signal");
+
+
+			// stacking emit
+			if (signal.isConnected()) {
+				prevAction = signal.emit;
+				signal.emit = null;
+			}
+
 			signal.connect(trigger);
 		};
+
 		disconnectSignal = () => {
 			signal.disconnect(trigger);
+
+			// pop emit
+			if (prevAction != null) {
+				signal.emit = prevAction;
+			}
 		};
 	}
 }
