@@ -6,8 +6,11 @@ public class StateMachineTest : MonoBehaviour {
 
 	FFaniSignal nextAction = new FFaniSignal();
 	public FFaniState state1 = new FFaniState();
+	public FFaniState state1_1 = new FFaniState();
+	public FFaniState state1_2 = new FFaniState();
 	public FFaniState state2 = new FFaniState();
 	public FFaniState state3 = new FFaniState();
+	public FFaniStateMachine stateMachine = new FFaniStateMachine();
 
 
 	// Use this for initialization
@@ -21,27 +24,64 @@ public class StateMachineTest : MonoBehaviour {
 	}
 
 	void Awake() {
+		Test2();
+	}
+
+	void Test1() {
+		stateMachine.name = "stateMachine";
 		state1.name = "state1";
+		state1_1.name = "state1_1";
+		state1_2.name = "state1_2";
 		state2.name = "state2";
 		state3.name = "state3";
-			
 
-		FFaniTransition trans01 = new FFaniTransition();
+		state1.addChild(state1_1);
+		state1.addChild(state1_2);
 
-		state1.addTransition(trans01);
-		trans01.setSignal(nextAction);
-		trans01.toState = state2;
+		stateMachine.addChild(state1);
+		stateMachine.addChild(state2);
+		stateMachine.addChild(state3);
 
 
-		FFaniTransition trans02 = new FFaniTransition();
+		FFaniTransition trans01 = new FFaniTransition(state1_1, state1_2, nextAction);
+		FFaniTransition trans02 = new FFaniTransition(state2, state3, nextAction);
+		FFaniTransition trans03 = new FFaniTransition(state1_2, state2, nextAction);
 
-		state2.addTransition(trans02);
-		trans02.setSignal(nextAction);
-		trans02.toState = state3;
+		stateMachine.enter();
 
-		state1.enter();
+		Debug.Log("depth: " + state1_1.depth());
+
+
+		FFaniState stateAnc = trans01.findCommonAncestor();
+
+		Debug.Log("common Anc = " + stateAnc.name);
 
 		Debug.Log(nextAction);
+
+	}
+
+	void Test2() {
+		stateMachine.name = "stateMachine";
+		state1.name = "state1";
+		state1_1.name = "state1_1";
+		state1_2.name = "state1_2";
+		state2.name = "state2";
+		state3.name = "state3";
+
+		state1.addChild(state1_1);
+		state1.addChild(state1_2);
+
+		stateMachine.addChild(state1);
+		stateMachine.addChild(state2);
+		stateMachine.addChild(state3);
+
+
+		//FFaniTransition trans01 = new FFaniTransition(state1_1, state1_2, nextAction);
+		FFaniTransition trans03 = new FFaniTransition(state1, state2, nextAction);
+		FFaniTransition trans02 = new FFaniTransition(state2, state1_2, nextAction);
+
+		stateMachine.enter();
+
 	}
 
 	public void onButtonClicked() {
