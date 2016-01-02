@@ -4,18 +4,24 @@ using System.Collections.Generic;
 using System;
 
 public class FFaniSignal {
-	public Action emit;
+	public Action action;
 
-	public void connect(Action action) {
-		emit += action;
+	public void connect(Action act) {
+		action += act;
 	}
 
-	public void disconnect(Action action) {
-		emit -= action;
+	public void disconnect(Action act) {
+		action -= act;
 	}
 
 	public bool isConnected() {
-		return emit != null;
+		return action != null;
+	}
+
+	public void emit() {
+		if (action != null) {
+			action();
+		}
 	}
 }
 
@@ -129,10 +135,10 @@ public class FFaniTransition {
 			//Debug.Log("connect signal");
 
 
-			// stacking emit
+			//  preserve current action of signal
 			if (signal.isConnected()) {
-				prevAction = signal.emit;
-				signal.emit = null;
+				prevAction = signal.action;
+				signal.action = null;
 			}
 
 			signal.connect(trigger);
@@ -141,9 +147,9 @@ public class FFaniTransition {
 		disconnectSignal = () => {
 			signal.disconnect(trigger);
 
-			// pop emit
+			// recover prev action
 			if (prevAction != null) {
-				signal.emit = prevAction;
+				signal.action = prevAction;
 			}
 		};
 	}
@@ -151,7 +157,7 @@ public class FFaniTransition {
 
 
 public class FFaniState {
-	public bool isActive;
+	public bool active;
 	public FFaniState parent;
 
 	private FFaniStateMachine mStateMachine;
@@ -213,14 +219,14 @@ public class FFaniState {
 	public void enterCurrent() {
 		Debug.Log("state - " + name + " entered");
 		connectTransitions();
-		isActive = true;
+		active = true;
 		onEntered();
 	}
 
 	public void exit() {
 		Debug.Log("state - " + name + " exited");
 		disconnectTransitions();
-		isActive = false;
+		active = false;
 		onExited();
 	}
 

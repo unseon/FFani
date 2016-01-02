@@ -5,13 +5,13 @@ using System;
 public class StateMachineTest : MonoBehaviour {
 
 	FFaniSignal nextAction = new FFaniSignal();
+
 	public FFaniState state1 = new FFaniState();
 	public FFaniState state1_1 = new FFaniState();
 	public FFaniState state1_2 = new FFaniState();
 	public FFaniState state2 = new FFaniState();
 	public FFaniState state3 = new FFaniState();
 	public FFaniStateMachine stateMachine = new FFaniStateMachine();
-
 
 	// Use this for initialization
 	void Start () {
