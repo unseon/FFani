@@ -15,6 +15,7 @@ public class StateMachineTest : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Test3();
 	
 	}
 	
@@ -24,7 +25,6 @@ public class StateMachineTest : MonoBehaviour {
 	}
 
 	void Awake() {
-		Test3();
 	}
 
 	void Test1() {
@@ -43,9 +43,9 @@ public class StateMachineTest : MonoBehaviour {
 		stateMachine.addChild(state3);
 
 
-		FFaniTransition trans01 = new FFaniTransition(state1_1, state1_2, nextAction);
-		FFaniTransition trans02 = new FFaniTransition(state2, state3, nextAction);
-		FFaniTransition trans03 = new FFaniTransition(state1_2, state2, nextAction);
+		FFaniSignalTransition trans01 = new FFaniSignalTransition(state1_1, state1_2, nextAction);
+		FFaniSignalTransition trans02 = new FFaniSignalTransition(state2, state3, nextAction);
+		FFaniSignalTransition trans03 = new FFaniSignalTransition(state1_2, state2, nextAction);
 
 		stateMachine.enter();
 
@@ -77,8 +77,8 @@ public class StateMachineTest : MonoBehaviour {
 
 
 		//FFaniTransition trans01 = new FFaniTransition(state1_1, state1_2, nextAction);
-		FFaniTransition trans03 = new FFaniTransition(state1, state2, nextAction);
-		FFaniTransition trans02 = new FFaniTransition(state2, state1_2, nextAction);
+		FFaniSignalTransition trans03 = new FFaniSignalTransition(state1, state2, nextAction);
+		FFaniSignalTransition trans02 = new FFaniSignalTransition(state2, state1_2, nextAction);
 
 		stateMachine.enter();
 
@@ -100,9 +100,9 @@ public class StateMachineTest : MonoBehaviour {
 		stateMachine.addChild(state3);
 
 
-		FFaniTransition trans03 = new FFaniTransition(state1, state2, nextAction);
-		FFaniTransition trans01 = new FFaniTransition(state1_1, state1_2, nextAction);
-		FFaniTransition trans02 = new FFaniTransition(state2, state1_2, nextAction);
+		FFaniSignalTransition trans03 = new FFaniSignalTransition(state1, state2, nextAction);
+		FFaniSignalTransition trans01 = new FFaniSignalTransition(state1_1, state1_2, nextAction);
+		FFaniSignalTransition trans02 = new FFaniSignalTransition(state2, state1_2, nextAction);
 
 		stateMachine.enter();
 

@@ -25,7 +25,7 @@ public class FFaniSignal {
 	}
 }
 
-public class FFaniTransition {
+public class FFaniSignalTransition {
 	public string name;
 	public Action connectSignal;
 	public Action disconnectSignal;
@@ -61,7 +61,7 @@ public class FFaniTransition {
 		enteringPath.Reverse();
 
 		// if isExternal is true, common ancestor should re-enter
-		if (isExternal) {
+		if ((source.stateMachine.activeState == anc || target == anc) && isExternal) {
 			exitingPath.Add(anc);
 			enteringPath.Insert(0, anc);
 		}
@@ -79,10 +79,11 @@ public class FFaniTransition {
 		target.enterInitState();
 	}
 
-	public FFaniTransition() {
+	public FFaniSignalTransition() {
+		Debug.Log("FFaniSignalTransition created");
 	}
 
-	public FFaniTransition(FFaniState from, FFaniState to, FFaniSignal sig) {
+	public FFaniSignalTransition(FFaniState from, FFaniState to, FFaniSignal sig) {
 		from.addTransition(this);
 		target = to;
 		setSignal(sig);
@@ -159,6 +160,7 @@ public class FFaniTransition {
 public class FFaniState {
 	public bool active;
 	public FFaniState parent;
+	public Dictionary<string, FFaniSignal> signals = new Dictionary<string, FFaniSignal>();
 
 	private FFaniStateMachine mStateMachine;
 	public FFaniStateMachine stateMachine {
@@ -242,10 +244,10 @@ public class FFaniState {
 		}
 	}
 
-	public List<FFaniTransition> transitions = new List<FFaniTransition>();
+	public List<FFaniSignalTransition> transitions = new List<FFaniSignalTransition>();
 	public List<FFaniState> children = new List<FFaniState>();
 
-	public void addTransition(FFaniTransition transition) {
+	public void addTransition(FFaniSignalTransition transition) {
 		transition.source = this;
 		transitions.Add(transition);
 	}
@@ -254,6 +256,13 @@ public class FFaniState {
 		state.parent = this;
 		state.stateMachine = stateMachine;
 		children.Add(state);
+	}
+
+	public FFaniSignal addSignal(string signalName) {
+		FFaniSignal signal = new FFaniSignal();
+		signals.Add(signalName, signal);
+
+		return signal;
 	}
 }
 

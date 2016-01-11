@@ -1,0 +1,29 @@
+{
+    "id": "stateMachine",
+    "objectName": "stateMachine",
+    "type": "StateMachine",
+    "signals": [
+        "machineTest"
+    ],
+    "children": [
+        {
+            "id": "state",
+            "objectName": "state",
+            "type": "State",
+            "transitions": [
+                {
+                    "id": "",
+                    "objectName": "",
+                    "targetState": "state1",
+                    "type": "SignalTransition",
+                    "signalName": "machineTest"
+                }
+            ]
+        },
+        {
+            "id": "state1",
+            "objectName": "state1",
+            "type": "State"
+        }
+    ]
+}
