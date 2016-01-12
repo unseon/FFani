@@ -17,4 +17,12 @@ public class StateMachineParserTest : MonoBehaviour {
 	public void onButtonPressed() {
 		stateMachine.signals["machineTest"].emit();
 	}
+
+	public void onStateEntered() {
+		Debug.Log("onStateEntered() called");
+	}
+
+	public void onState1Entered() {
+		Debug.Log("onState1Entered() called");
+	}
 }

@@ -223,6 +223,7 @@ public class FFaniState {
 		connectTransitions();
 		active = true;
 		onEntered();
+		stateMachine.onStateEntered(name);
 	}
 
 	public void exit() {
@@ -230,6 +231,7 @@ public class FFaniState {
 		disconnectTransitions();
 		active = false;
 		onExited();
+		stateMachine.onStateExited(name);
 	}
 
 	private void connectTransitions() {
@@ -272,4 +274,7 @@ public class FFaniStateMachine : FFaniState {
 	public FFaniStateMachine() {
 		stateMachine = this;
 	}
+
+	public Action<string> onStateEntered;
+	public Action<string> onStateExited;
 }
