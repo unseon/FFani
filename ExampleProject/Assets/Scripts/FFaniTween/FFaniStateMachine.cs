@@ -80,7 +80,7 @@ public class FFaniSignalTransition {
 	}
 
 	public FFaniSignalTransition() {
-		Debug.Log("FFaniSignalTransition created");
+		//Debug.Log("FFaniSignalTransition created");
 	}
 
 	public FFaniSignalTransition(FFaniState from, FFaniState to, FFaniSignal sig) {

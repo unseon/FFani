@@ -74,7 +74,7 @@ public class FFani {
 	}
 	
 	public static FFaniMation Activate(GameObject target
-	                                   , bool active)
+	                                   , bool active = true)
 	{
 		FFaniMation anim = new FFaniMation();
 		anim.duration = 0.0f;

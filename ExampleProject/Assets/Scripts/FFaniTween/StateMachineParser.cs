@@ -98,8 +98,11 @@ public class StateMachineParser {
 	void PostParseTransition (JSONNode node) {
 		var transition = transitionDic[node];
 
-		var signal = stateMachine.signals[node["signalName"].Value];
-		transition.setSignal(signal);
+        if (node["signalName"] != null) {
+            var signal = stateMachine.signals[node["signalName"].Value];
+            transition.setSignal(signal);
+        }
+        
 		transition.target = stateDic[node["targetState"].Value];
 	}
 }
