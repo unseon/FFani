@@ -408,6 +408,15 @@ public class FFaniMation {
 		if (state == "completed") {
 			return;
 		}
+        
+        if (state == "ready" || state == "delaying") {
+            Init();
+            
+            if (onStarted != null) {
+                //anim.state == "playing"
+                onStarted();
+            }
+        }
 
 		state = "completed";
 

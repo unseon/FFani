@@ -89,7 +89,7 @@ public class FFaniSerialAnimation : FFaniGroupAnimation {
 	}
 
 	override public void Complete() {
-		//Debug.Log ("completed");
+		Debug.Log ("completed");
 		
 		if (state == "completed") {
 			return;
@@ -100,18 +100,7 @@ public class FFaniSerialAnimation : FFaniGroupAnimation {
 
 		for (int i = activeAnimNumber; i < animList.Count; i++) {
 			FFaniMation anim = animList[i];
-
-			if (anim.state == "ready" || anim.state == "delaying") {
-				anim.Init();
-				
-				if (onStarted != null) {
-					anim.onStarted();
-				}
-			}
-
-			if (anim.state == "playing") {
-				anim.Complete();
-			}
+			anim.Complete();
 		}
 
 		if (onCompleted != null) {

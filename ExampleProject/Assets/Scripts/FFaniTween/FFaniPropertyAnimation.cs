@@ -66,7 +66,12 @@ public class FFaniPropertyAnimation : FFaniMation {
 		//Debug.Log (currentTime);
 
 		// t shuoud be in 0.0 ~ 1.0
-		float t = Mathf.Clamp(currentTime / duration, 0.0f, 1.0f);
+		float t;
+        if (duration == 0) {
+            t = 1.0f;
+        } else {
+            t = Mathf.Clamp(currentTime / duration, 0.0f, 1.0f);
+        }
 
 		float easingTime = easingCurve(t);
 
