@@ -43,7 +43,7 @@ public class FFaniParallelAnimation : FFaniGroupAnimation {
 		}
 
 		if (runningAnimList.Count == 0) {
-			Complete ();
+			state = "completed";
 		}
 	}
 }
