@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -484,5 +485,21 @@ public class FFaniMation {
 	
 	virtual protected void OnUpdatePlay(float delta) {
 		//Debug.Log ("onUpdate");
+	}
+
+	virtual public FFaniMation Cloned() {
+		FFaniMation anim = new FFaniMation();
+		CopyTo(anim);
+		return anim;
+	}
+
+	virtual protected void CopyTo(FFaniMation target) {
+		target.easingCurve = easingCurve;
+		target.onStarted += onStarted;
+		target.onCompleted += onCompleted;
+		target.onStopped += onStopped;
+
+		target.delay = delay;
+		target.duration = duration;
 	}
 }

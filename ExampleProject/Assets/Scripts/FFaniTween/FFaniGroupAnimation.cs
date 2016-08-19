@@ -12,6 +12,23 @@ public class FFaniGroupAnimation : FFaniMation {
 	public void Add(FFaniMation anim) {
 		animList.Add(anim);
 	}
+
+	override public FFaniMation Cloned() {
+		FFaniGroupAnimation anim = new FFaniGroupAnimation();
+		CopyTo(anim);
+
+		return anim;
+	}
+
+	override protected void CopyTo(FFaniMation target) {
+		FFaniGroupAnimation anim = target as FFaniGroupAnimation;
+		base.CopyTo(anim);
+
+		for (int i = 0; i < animList.Count; i++) {
+			FFaniMation clone = animList[i].Cloned();
+			anim.Add(clone);
+		}
+	}
 }
 
 public class FFaniParallelAnimation : FFaniGroupAnimation {

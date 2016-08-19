@@ -15,6 +15,10 @@ public class FFaniMoment {
 	public string name = "";
 	public List<FFaniPair> momentValues = new List<FFaniPair>();
 
+	public FFaniMoment(string name) {
+		this.name = name;
+	}
+
 	public void Activate() {
 		for (int i = 0; i < momentValues.Count; i++) {
 			momentValues[i].Activate ();
@@ -23,6 +27,14 @@ public class FFaniMoment {
 
 	public void Add(FFaniPair mv) {
 		momentValues.Add (mv);
+	}
+
+	public void PropertyChange(Component target, string propertyName, object value) {
+		FFaniPair pair = new FFaniPair();
+		pair.property = FFani.getTargetMember(target, propertyName);
+		pair.value = value;
+
+		momentValues.Add(pair);
 	}
 }
 
@@ -90,7 +102,7 @@ public class FFaniMomentMap {
 	}
 
 	public FFaniMomentMap() {
-		currentMoment = new FFaniMoment();
+		currentMoment = new FFaniMoment("");
 		moments[""] = currentMoment;
 	}
 

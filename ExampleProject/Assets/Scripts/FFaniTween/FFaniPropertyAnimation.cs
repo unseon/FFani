@@ -132,4 +132,21 @@ public class FFaniPropertyAnimation : FFaniMation {
 		Color newValue = Color32.Lerp(vFrom, vTo, t);
 		member.setValue (newValue);
 	}
+
+	override public FFaniMation Cloned() {
+		FFaniPropertyAnimation anim = new FFaniPropertyAnimation();
+		CopyTo(anim);
+
+		return anim;
+	}
+
+	override protected void CopyTo(FFaniMation target) {
+		FFaniPropertyAnimation anim = target as FFaniPropertyAnimation;
+		base.CopyTo(anim);
+
+		anim.targetComponent = targetComponent;
+		anim.propertyName = propertyName;
+		anim.from = from;
+		anim.to = to;
+	}
 }
