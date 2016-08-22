@@ -217,4 +217,27 @@ public class FFani {
 		{"ry", "rotation.eulerAngles.y"},
 		{"rz", "rotation.eulerAngles.z"},
 	};
+
+	public static FFaniMoment Moment (string name, params FFaniPropertyChange[] pairs) {
+		FFaniMoment moment = new FFaniMoment(name);
+
+		for (int i = 0; i < pairs.Length; i++) {
+			moment.Add(pairs[i]);
+		}
+
+		return moment;
+	}
+
+	public static FFaniPropertyChange PropertyChange(Component target, string propertyName, object value) {
+		return new FFaniPropertyChange(target, propertyName, value);
+	}
+
+	public static FFaniMomentMation MomentMation (string from, string to, FFaniMation anim) {
+		FFaniMomentMation mmation =  new FFaniMomentMation();
+		mmation.from = from;
+		mmation.to = to;
+		mmation.blendAnim = anim;
+
+		return mmation;
+	}
 }

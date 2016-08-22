@@ -2,9 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class FFaniPair {
+public class FFaniPropertyChange {
 	public FFaniProperty property;
 	public object value;
+
+	public FFaniPropertyChange(Component target, string propertyName, object value) {
+		this.property = FFani.getTargetMember(target, propertyName);
+		this.value = value;
+	}
 
 	public void Activate() {
 		property.setValue (value);
@@ -13,7 +18,7 @@ public class FFaniPair {
 
 public class FFaniMoment {
 	public string name = "";
-	public List<FFaniPair> propertyChanges = new List<FFaniPair>();
+	public List<FFaniPropertyChange> propertyChanges = new List<FFaniPropertyChange>();
 
 	public FFaniMoment(string name) {
 		this.name = name;
@@ -25,15 +30,12 @@ public class FFaniMoment {
 		}
 	}
 
-	public void Add(FFaniPair mv) {
+	public void Add(FFaniPropertyChange mv) {
 		propertyChanges.Add (mv);
 	}
 
 	public void SetPropertyChange(Component target, string propertyName, object value) {
-		FFaniPair pair = new FFaniPair();
-		pair.property = FFani.getTargetMember(target, propertyName);
-		pair.value = value;
-
+		FFaniPropertyChange pair = new FFaniPropertyChange(target, propertyName, value);
 		propertyChanges.Add(pair);
 	}
 }
@@ -103,7 +105,7 @@ public class FFaniMomentMation {
 			FFaniPropertyAnimation memberAnim = (FFaniPropertyAnimation) anim;
 			
 			if (memberAnim.to == null) {
-				FFaniPair memberValue = moment.propertyChanges.Find (item => item.property.isEqual(memberAnim.member));
+				FFaniPropertyChange memberValue = moment.propertyChanges.Find (item => item.property.isEqual(memberAnim.member));
 				memberAnim.to = memberValue.value;
 			}
 		}
@@ -115,7 +117,7 @@ public class FFaniMomentMap {
 
 	List<FFaniMomentMation> momentMations = new List<FFaniMomentMation>();
 
-	private FFaniMoment currentMoment;
+	public FFaniMoment currentMoment;
 	public string moment {
 		get {
 			return currentMoment.name;
@@ -145,6 +147,64 @@ public class FFaniMomentMap {
 
 	public void AddMomentMation(FFaniMomentMation link) {
 		momentMations.Insert(0, link);
+	}
+
+	public FFaniMomentMation FindMomentMation(string from, string to) {
+		FFaniMomentMation link = momentMations.Find (item => (item.from == from || item.from == "*" ) && (item.to == to || item.to == "*"));
+
+		return link;
+	}
+}
+
+
+// inner codes are almost same as MomentMap
+public class MomentBehaviour : MonoBehaviour {
+	public Dictionary<string, FFaniMoment> moments = new Dictionary<string, FFaniMoment>();
+
+	public List<FFaniMomentMation> momentMations = new List<FFaniMomentMation>();
+
+	public FFaniMoment currentMoment;
+	public string moment {
+		get {
+			return currentMoment.name;
+		}
+		set {
+			string prevMoment = currentMoment.name;
+			currentMoment = moments[value];
+
+			FFaniMomentMation link = FindMomentMation(prevMoment, moment);
+
+			if (link != null) {
+				link.StartTo(currentMoment);
+			} else {
+				currentMoment.Activate();
+			}
+		}
+	}
+
+	protected virtual void Awake() {
+		currentMoment = new FFaniMoment("");
+		moments[""] = currentMoment;
+	}
+
+	public void AddMoment(FFaniMoment moment) {
+		moments[moment.name] = moment;
+	}
+
+	public void Moments(params FFaniMoment[] moments) {
+		for (int i = 0; i < moments.Length; i++) {
+			this.moments[moments[i].name] = moments[i];
+		}
+	}
+
+	public void AddMomentMation(FFaniMomentMation link) {
+		momentMations.Insert(0, link);
+	}
+
+	public void MomentMations(params FFaniMomentMation[] links) {
+		for (int i = 0; i < links.Length; i++) {
+			momentMations.Insert(0, links[i]);
+		}
 	}
 
 	public FFaniMomentMation FindMomentMation(string from, string to) {

@@ -5,43 +5,75 @@ using System.Collections.Generic;
 using System.Reflection;
 using System;
 
-public class TestMoment : MonoBehaviour {
+public class TestMoment : MomentBehaviour {
 
-	FFaniMomentMap momentMap = new FFaniMomentMap();
 	// Use this for initialization
-	void Awake () {
+	protected override void Awake () {
+		base.Awake();
+
 		Transform cube0 = GameObject.Find("Cube").transform;
 		Transform cube1 = GameObject.Find("Cube01").transform;
 
-		FFaniMoment moment01 = new FFaniMoment("moment01");
-		moment01.SetPropertyChange(cube0, "position.x", 10.0f);
-		moment01.SetPropertyChange(cube1, "position.x", 10.0f);
-		momentMap.AddMoment (moment01);
+		Moments(
+			FFani.Moment(
+				name = "moment01",
+				FFani.PropertyChange(cube0, "position.x", 10.0f),
+				FFani.PropertyChange(cube1, "position.x", 10.0f)
+			),
+			FFani.Moment(
+				name = "moment02",
+				FFani.PropertyChange(cube0, "position.x", 0.0f),
+				FFani.PropertyChange(cube1, "position.x", 0.0f)
+			)
+		);
 
-		FFaniMoment moment02 = new FFaniMoment("moment02");
-		moment02.SetPropertyChange(cube0, "position.x", 0.0f);
-		moment02.SetPropertyChange(cube1, "position.x", 0.0f);
-		momentMap.AddMoment (moment02);
+		MomentMations(
+			FFani.MomentMation(
+				from: "moment01",
+				to: "moment02",
+				anim:
+					FFani.Tween(
+						target: cube0,
+						propertyName: "position.x",
+						duration: 0.5f
+					)
+			),
+			FFani.MomentMation(
+				from: "moment02",
+				to: "moment01",
+				anim:
+					FFani.Tween(
+						target: cube0,
+						propertyName: "position.x",
+						duration: 0.5f
+					)
+			)
+		);
 
-		FFaniMomentMation link = new FFaniMomentMation();
+//		FFaniMomentMation link = new FFaniMomentMation();
+//
+//		link.from = "moment01";
+//		link.to = "moment02";
+//
+//		link.blendAnim = 
+//			FFani.Tween(
+//				target: cube0,
+//				propertyName: "position.x",
+//				duration: 0.5f
+//			);
+//
+//		AddMomentMation(link);
 
-		link.from = "moment01";
-		link.to = "moment02";
-
-		link.blendAnim = 
-			FFani.Tween(
-				target: cube0,
-				propertyName: "position.x",
-				duration: 0.5f
-			);
-
-		momentMap.AddMomentMation(link);
-
-		momentMap.moment = "moment01";
+		moment = "moment02";
 	}
 
 	public void Go() {
 		Debug.Log("Go");
-		momentMap.moment = "moment02";
+
+		if ( moment == "moment01") {
+			moment = "moment02";
+		} else {
+			moment = "moment01";
+		}
 	}
 }
