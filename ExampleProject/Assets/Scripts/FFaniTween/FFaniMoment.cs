@@ -13,28 +13,28 @@ public class FFaniPair {
 
 public class FFaniMoment {
 	public string name = "";
-	public List<FFaniPair> momentValues = new List<FFaniPair>();
+	public List<FFaniPair> propertyChanges = new List<FFaniPair>();
 
 	public FFaniMoment(string name) {
 		this.name = name;
 	}
 
 	public void Activate() {
-		for (int i = 0; i < momentValues.Count; i++) {
-			momentValues[i].Activate ();
+		for (int i = 0; i < propertyChanges.Count; i++) {
+			propertyChanges[i].Activate ();
 		}
 	}
 
 	public void Add(FFaniPair mv) {
-		momentValues.Add (mv);
+		propertyChanges.Add (mv);
 	}
 
-	public void PropertyChange(Component target, string propertyName, object value) {
+	public void SetPropertyChange(Component target, string propertyName, object value) {
 		FFaniPair pair = new FFaniPair();
 		pair.property = FFani.getTargetMember(target, propertyName);
 		pair.value = value;
 
-		momentValues.Add(pair);
+		propertyChanges.Add(pair);
 	}
 }
 
@@ -42,19 +42,52 @@ public class FFaniMomentMation {
 	public string from;
 	public string to;
 
-	public List<FFaniMation> animList = new List<FFaniMation>();
+	//public List<FFaniMation> animList = new List<FFaniMation>();
+
+	public FFaniMation blendAnim;
 
 	public void StartTo(FFaniMoment moment) {
 		UpdateTarget (moment);
 
-		for(int i = 0; i < animList.Count; i++) {
-			animList[i].Start ();
+		if (blendAnim != null) {
+			blendAnim.Start();
 		}
 	}
 
 	public void UpdateTarget(FFaniMoment moment) {
-		for (int i = 0; i < animList.Count; i++) {
-			UpdateAnimationTargetValue(moment, animList[i]);
+		if (blendAnim != null) {
+			UpdateValueImmediately(moment);
+			UpdateAnimationTargetValue(moment, blendAnim);
+		}
+	}
+
+	public void UpdateValueImmediately(FFaniMoment moment) {
+		for (int i = 0; i < moment.propertyChanges.Count; i++) {
+			if(FindPropertyAnimation(moment.propertyChanges[i].property, blendAnim) == null) {
+				moment.propertyChanges[i].Activate();
+			}
+		}
+	}
+
+	public FFaniMation FindPropertyAnimation(FFaniProperty property, FFaniMation anim) {
+		if (anim.GetType() == typeof(FFaniGroupAnimation)) {
+			FFaniGroupAnimation groupAnim = (FFaniGroupAnimation)anim;
+			for (int i = 0; i < groupAnim.animList.Count; i++) {
+				FFaniMation result = FindPropertyAnimation(property, groupAnim.animList[i]);
+				if (result != null) {
+					return result;
+				}
+			}
+			return null;
+		} else if (anim.GetType() == typeof(FFaniPropertyAnimation)){
+			FFaniPropertyAnimation memberAnim = (FFaniPropertyAnimation) anim;
+			if (memberAnim.member.isEqual(property)) {
+				return memberAnim;
+			} else {
+				return null;
+			}
+		} else {
+			return null;
 		}
 	}
 	
@@ -70,7 +103,7 @@ public class FFaniMomentMation {
 			FFaniPropertyAnimation memberAnim = (FFaniPropertyAnimation) anim;
 			
 			if (memberAnim.to == null) {
-				FFaniPair memberValue = moment.momentValues.Find (item => item.property.isEqual(memberAnim.member));
+				FFaniPair memberValue = moment.propertyChanges.Find (item => item.property.isEqual(memberAnim.member));
 				memberAnim.to = memberValue.value;
 			}
 		}

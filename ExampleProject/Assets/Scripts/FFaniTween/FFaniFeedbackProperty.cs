@@ -16,8 +16,11 @@ public class FFaniFeedbackProperty : FFaniProperty {
 		this.subproperty = subproperty;
 		
 		__name = getName();
-		
-		//Debug.Log ("Property" + __name);
+
+		this.obj = property.obj;
+
+		//Debug.Log("Feedback Property" + property.obj);
+		//Debug.Log("Feedback Property" + __name);
 	}
 
 	public override Type getType () {
