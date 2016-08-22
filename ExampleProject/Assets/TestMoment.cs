@@ -50,20 +50,6 @@ public class TestMoment : MomentBehaviour {
 			)
 		);
 
-//		FFaniMomentMation link = new FFaniMomentMation();
-//
-//		link.from = "moment01";
-//		link.to = "moment02";
-//
-//		link.blendAnim = 
-//			FFani.Tween(
-//				target: cube0,
-//				propertyName: "position.x",
-//				duration: 0.5f
-//			);
-//
-//		AddMomentMation(link);
-
 		moment = "moment02";
 	}
 

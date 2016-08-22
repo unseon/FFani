@@ -348,6 +348,7 @@ public class FFaniMation {
 	public FFani.Callback onStarted = null;
 	public FFani.Callback onCompleted = null;
 	public FFani.Callback onStopped = null;
+	public FFani.Callback instantCallback = null;
 
 	public float currentTime = 0.0f;
 	public float currentEasingTime = 0.0f;
@@ -378,6 +379,11 @@ public class FFaniMation {
 		}
 	}
 
+	public void Start (FFani.Callback stopped) {
+		instantCallback += stopped;
+		Start();
+	}
+
 	public void Reset() {
 		if (delay > 0.0f) {
 			state = "delaying";
@@ -398,6 +404,12 @@ public class FFaniMation {
 		//Debug.Log ("Stopped");
 		//FFaniManager.Instance().Stop(this);
 		state = "stopped";
+
+		if (instantCallback != null) {
+			instantCallback();
+			instantCallback = null;
+		}
+
 		if (onStopped != null) {
 			onStopped();
 		}
@@ -423,6 +435,11 @@ public class FFaniMation {
 
 		currentTime = duration;
 		OnUpdatePlay (0.0f);
+
+		if (instantCallback != null) {
+			instantCallback();
+			instantCallback = null;
+		}
 
 		if (onCompleted != null) {
 			onCompleted();
@@ -471,6 +488,11 @@ public class FFaniMation {
 			}
 
 			if (state == "completed") {
+				if (instantCallback != null) {
+					instantCallback();
+					instantCallback = null;
+				}
+
 				if (onCompleted != null) {
 					onCompleted();
 				}

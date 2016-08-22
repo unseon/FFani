@@ -12,7 +12,7 @@ public class FFaniPropertyChange {
 	}
 
 	public void Activate() {
-		Debug.Log("FFaniPropertyChange Activate " + property.obj);
+//		Debug.Log("FFaniPropertyChange Activate " + property.obj);
 
 		property.setValue (value);
 	}
@@ -46,15 +46,21 @@ public class FFaniMomentMation {
 	public string from;
 	public string to;
 
-	//public List<FFaniMation> animList = new List<FFaniMation>();
-
 	public FFaniMation blendAnim;
+
+	public FFani.Callback stopped;
 
 	public void StartTo(FFaniMoment moment) {
 		UpdateTarget (moment);
 
 		if (blendAnim != null) {
-			blendAnim.Start();
+			blendAnim.Start(OnAnimStopped);
+		}
+	}
+
+	public void OnAnimStopped() {
+		if (stopped != null) {
+			stopped();
 		}
 	}
 
@@ -217,7 +223,12 @@ public class MomentBehaviour : MonoBehaviour {
 	public void MomentMations(params FFaniMomentMation[] links) {
 		for (int i = 0; i < links.Length; i++) {
 			momentMations.Insert(0, links[i]);
+			links[i].stopped += OnMomentMationStopped;
 		}
+	}
+
+	public void OnMomentMationStopped() {
+		Debug.Log("OnMomentMationStopped");
 	}
 
 	public FFaniMomentMation FindMomentMation(string from, string to) {

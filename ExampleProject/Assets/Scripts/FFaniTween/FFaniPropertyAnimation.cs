@@ -89,7 +89,7 @@ public class FFaniPropertyAnimation : FFaniMation {
 
 		blendValue(easingTime);
 
-		Debug.Log("Current Time: " + currentTime + ", BlendValue: " + member.getValue());
+//		Debug.Log("Current Time: " + currentTime + ", BlendValue: " + member.getValue());
 		
 //		if (currentTime >= duration) {
 //			Finish();
