@@ -12,6 +12,8 @@ public class FFaniPropertyChange {
 	}
 
 	public void Activate() {
+		Debug.Log("FFaniPropertyChange Activate " + property.obj);
+
 		property.setValue (value);
 	}
 }
@@ -103,7 +105,7 @@ public class FFaniMomentMation {
 			return;
 		} else if (anim.GetType() == typeof(FFaniPropertyAnimation)){
 			FFaniPropertyAnimation memberAnim = (FFaniPropertyAnimation) anim;
-			
+
 			if (memberAnim.to == null) {
 				FFaniPropertyChange memberValue = moment.propertyChanges.Find (item => item.property.isEqual(memberAnim.member));
 				memberAnim.to = memberValue.value;
@@ -118,6 +120,7 @@ public class FFaniMomentMap {
 	List<FFaniMomentMation> momentMations = new List<FFaniMomentMation>();
 
 	public FFaniMoment currentMoment;
+	public FFaniMomentMation currentMomentMation;
 	public string moment {
 		get {
 			return currentMoment.name;
@@ -126,10 +129,14 @@ public class FFaniMomentMap {
 			string prevMoment = currentMoment.name;
 			currentMoment = moments[value];
 
-			FFaniMomentMation link = FindMomentMation(prevMoment, moment);
+			if (currentMomentMation != null) {
+				currentMomentMation.blendAnim.Stop();
+			}
 
-			if (link != null) {
-				link.StartTo(currentMoment);
+			currentMomentMation = FindMomentMation(prevMoment, moment);
+
+			if (currentMomentMation != null) {
+				currentMomentMation.StartTo(currentMoment);
 			} else {
 				currentMoment.Activate();
 			}
@@ -164,6 +171,8 @@ public class MomentBehaviour : MonoBehaviour {
 	public List<FFaniMomentMation> momentMations = new List<FFaniMomentMation>();
 
 	public FFaniMoment currentMoment;
+	public FFaniMomentMation currentMomentMation;
+
 	public string moment {
 		get {
 			return currentMoment.name;
@@ -172,10 +181,14 @@ public class MomentBehaviour : MonoBehaviour {
 			string prevMoment = currentMoment.name;
 			currentMoment = moments[value];
 
-			FFaniMomentMation link = FindMomentMation(prevMoment, moment);
+			if (currentMomentMation != null) {
+				currentMomentMation.blendAnim.Stop();
+			}
 
-			if (link != null) {
-				link.StartTo(currentMoment);
+			currentMomentMation = FindMomentMation(prevMoment, moment);
+
+			if (currentMomentMation != null) {
+				currentMomentMation.StartTo(currentMoment);
 			} else {
 				currentMoment.Activate();
 			}
