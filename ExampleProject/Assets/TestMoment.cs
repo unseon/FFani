@@ -13,17 +13,20 @@ public class TestMoment : MomentBehaviour {
 
 		Transform cube0 = GameObject.Find("Cube").transform;
 		Transform cube1 = GameObject.Find("Cube01").transform;
+		Transform cube2 = GameObject.Find("Cube02").transform;
 
 		Moments(
 			FFani.Moment(
 				name = "moment01",
 				FFani.PropertyChange(cube0, "position.x", 10.0f),
-				FFani.PropertyChange(cube1, "position.x", 10.0f)
+				FFani.PropertyChange(cube1, "position.x", 10.0f),
+				FFani.PropertyChange(cube2, "position.x", 10.0f)
 			),
 			FFani.Moment(
 				name = "moment02",
 				FFani.PropertyChange(cube0, "position.x", 0.0f),
-				FFani.PropertyChange(cube1, "position.x", 0.0f)
+				FFani.PropertyChange(cube1, "position.x", 0.0f),
+				FFani.PropertyChange(cube2, "position.x", 0.0f)
 			)
 		);
 
@@ -32,21 +35,35 @@ public class TestMoment : MomentBehaviour {
 				from: "moment01",
 				to: "moment02",
 				anim:
+				FFani.Serial (
 					FFani.Tween(
 						target: cube0,
 						propertyName: "position.x",
 						duration: 0.5f
+					),
+					FFani.Tween(
+						target: cube1,
+						propertyName: "position.x",
+						duration: 0.5f
 					)
+				)
 			),
 			FFani.MomentMation(
 				from: "moment02",
 				to: "moment01",
 				anim:
+				FFani.Serial(
 					FFani.Tween(
 						target: cube0,
 						propertyName: "position.x",
 						duration: 0.5f
+					),
+					FFani.Tween(
+						target: cube1,
+						propertyName: "position.x",
+						duration: 0.5f
 					)
+				)
 			)
 		);
 

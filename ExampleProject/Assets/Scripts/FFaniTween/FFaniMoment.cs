@@ -80,7 +80,7 @@ public class FFaniMomentMation {
 	}
 
 	public FFaniMation FindPropertyAnimation(FFaniProperty property, FFaniMation anim) {
-		if (anim.GetType() == typeof(FFaniGroupAnimation)) {
+		if (anim is FFaniGroupAnimation) {
 			FFaniGroupAnimation groupAnim = (FFaniGroupAnimation)anim;
 			for (int i = 0; i < groupAnim.animList.Count; i++) {
 				FFaniMation result = FindPropertyAnimation(property, groupAnim.animList[i]);
@@ -102,7 +102,7 @@ public class FFaniMomentMation {
 	}
 	
 	public void UpdateAnimationTargetValue(FFaniMoment moment, FFaniMation anim) {
-		if (anim.GetType() == typeof(FFaniGroupAnimation)) {
+		if (anim is FFaniGroupAnimation) {
 			FFaniGroupAnimation groupAnim = (FFaniGroupAnimation)anim;
 			for (int i = 0; i < groupAnim.animList.Count; i++) {
 				UpdateAnimationTargetValue(moment, groupAnim.animList[i]);
