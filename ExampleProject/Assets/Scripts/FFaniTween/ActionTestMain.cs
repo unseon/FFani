@@ -20,5 +20,24 @@ public class ActionTestMain : MonoBehaviour {
 	}
 
 	public void OnJump() {
+		
+		FFani.MecanimState(
+			target: GameObject.Find("unitychan").GetComponent<Animator>(),
+			stateName: "JUMP01"
+		).Remind(
+			()=>{Debug.Log("Hey Hey");}
+		).Start();
+	
+//		Animator animator = GameObject.Find("unitychan").GetComponent<Animator>();
+//		animator.Play("JUMP00");
+	}
+
+	public void OnWait() {
+		FFani.MecanimState(
+			target: GameObject.Find("unitychan").GetComponent<Animator>(),
+			stateName: "WAIT01"
+		).Remind(
+			()=>{Debug.Log("Hey Hey");}
+		).Start();
 	}
 }

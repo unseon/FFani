@@ -469,7 +469,7 @@ public class FFaniMation {
 		if (isDebug) {
 			if (Mathf.Abs(currentTime - dt) < 0.0001 && dt != 0) {
 
-				Debug.Log (this.GetType() + " currentTime: " + currentTime + ", dt: " + dt);
+				Debug.Log (this.GetType() + " currentTime: " + currentTime + ", dt: " + dt + " duration: " + duration);
 			}
 		}
 
