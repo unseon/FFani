@@ -20,7 +20,7 @@ public class ActionTestMain : MonoBehaviour {
 	}
 
 	public void OnJump() {
-		
+
 		FFani.MecanimState(
 			target: GameObject.Find("unitychan").GetComponent<Animator>(),
 			stateName: "JUMP01"
