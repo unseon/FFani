@@ -8,6 +8,7 @@ public class BasicTransform : MonoBehaviour {
 			target: GameObject.Find("Sphere").GetComponent<Transform>(),
 			propertyName: "position.x",
 			to: 8.0f,
+			duration: 3.0f,
 			easingCurve: FFaniEasing.InOutQuad
 		).Start();
 	}

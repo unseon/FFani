@@ -6,7 +6,7 @@ using System;
 
 public class FFaniPropertyAnimation : FFaniMation {
 
-	public Component targetComponent;
+	public object targetComponent;
 	public string propertyName;
 	public object from = null;
 	public object to = null;

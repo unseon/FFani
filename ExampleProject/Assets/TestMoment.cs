@@ -67,14 +67,30 @@ public class TestMoment : MomentBehaviour {
 			)
 		);
 
-		moment = "moment02";
+		moment = "moment01";
 	}
 
 	public void Go() {
 		Debug.Log("Go");
 
 		if ( moment == "moment01") {
-			moment = "moment02";
+			FFani.Serial(
+				FFani.Action(
+					()=>{
+						Debug.Log("moment blend anim start");
+					}
+				),
+				FFani.ChangeMoment(
+					target: this,
+					momentName: "moment02"
+				),
+				FFani.Action(
+					()=>{
+						Debug.Log("moment blend anim stopped");
+					}
+				)
+			).Start();
+			//moment = "moment02";
 		} else {
 			moment = "moment01";
 		}

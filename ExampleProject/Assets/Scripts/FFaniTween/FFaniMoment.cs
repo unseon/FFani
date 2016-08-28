@@ -6,15 +6,19 @@ public class FFaniPropertyChange {
 	public FFaniProperty property;
 	public object value;
 
-	public FFaniPropertyChange(Component target, string propertyName, object value) {
-		this.property = FFani.getTargetMember(target, propertyName);
-		this.value = value;
-	}
-
-	public void Activate() {
+	virtual public void Activate() {
 //		Debug.Log("FFaniPropertyChange Activate " + property.obj);
 
 		property.setValue (value);
+	}
+}
+
+public class FFaniActivationChange : FFaniPropertyChange {
+	public GameObject target;
+	public bool active;
+
+	override public void Activate() {
+		target.SetActive(active);
 	}
 }
 
@@ -34,11 +38,6 @@ public class FFaniMoment {
 
 	public void Add(FFaniPropertyChange mv) {
 		propertyChanges.Add (mv);
-	}
-
-	public void SetPropertyChange(Component target, string propertyName, object value) {
-		FFaniPropertyChange pair = new FFaniPropertyChange(target, propertyName, value);
-		propertyChanges.Add(pair);
 	}
 }
 
@@ -235,5 +234,25 @@ public class MomentBehaviour : MonoBehaviour {
 		FFaniMomentMation link = momentMations.Find (item => (item.from == from || item.from == "*" ) && (item.to == to || item.to == "*"));
 
 		return link;
+	}
+}
+
+public class FFaniChangeMoment: FFaniMation {
+	public MomentBehaviour target;
+	public string momentName;
+
+	override public void Init () {
+		base.Init();
+
+		target.moment = momentName;
+		duration = -1;
+	}
+
+	override protected void OnUpdatePlay(float delta) {
+		if (target.currentMomentMation == null) {
+			state = "completed";
+		} else {
+			state = target.currentMomentMation.blendAnim.state;
+		}
 	}
 }

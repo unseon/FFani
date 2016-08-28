@@ -25,7 +25,7 @@ public class FFani {
 		return anim;
 	}
 	
-	public static FFaniMation Tween(Component target
+	public static FFaniMation Tween(object target
 	                                , string propertyName
 	                                , object to = null
 	                                , object from = null
@@ -50,7 +50,7 @@ public class FFani {
 		return anim;
 	}
 	
-	public static FFaniMation Prompt(Component target
+	public static FFaniMation Prompt(object target
 	                                 , string propertyName
 	                                 , object to)
 	{
@@ -229,7 +229,19 @@ public class FFani {
 	}
 
 	public static FFaniPropertyChange PropertyChange(Component target, string propertyName, object value) {
-		return new FFaniPropertyChange(target, propertyName, value);
+		FFaniPropertyChange pchange =  new FFaniPropertyChange();
+		pchange.property = FFani.getTargetMember(target, propertyName);
+		pchange.value = value;
+
+		return pchange;
+	}
+
+	public static FFaniActivationChange ActivationChange(GameObject target, bool active) {
+		FFaniActivationChange achange = new FFaniActivationChange();
+		achange.target = target;
+		achange.active = active;
+
+		return achange;
 	}
 
 	public static FFaniMomentMation MomentMation (string from, string to, FFaniMation anim) {
@@ -248,5 +260,13 @@ public class FFani {
 		mstate.fadeTime = fadeTime;
 
 		return mstate;
+	}
+
+	public static FFaniChangeMoment ChangeMoment (MomentBehaviour target, string momentName) {
+		FFaniChangeMoment cmoment = new FFaniChangeMoment();
+		cmoment.target = target;
+		cmoment.momentName = momentName;
+
+		return cmoment;
 	}
 }
