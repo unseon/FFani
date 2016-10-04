@@ -52,7 +52,7 @@ public class FFani {
 	
 	public static FFaniMation Prompt(object target
 	                                 , string propertyName
-	                                 , object to)
+	                                 , object to = null)
 	{
 		FFaniPropertyAnimation anim = new FFaniPropertyAnimation();
 		anim.targetComponent = target;

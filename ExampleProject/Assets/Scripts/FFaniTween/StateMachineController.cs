@@ -38,7 +38,7 @@ public class StateMachineController : MonoBehaviour {
 
 		stateName = char.ToUpper(stateName[0]) + stateName.Substring(1);
 		Type thisType = handlerObject.GetType();
-		MethodInfo theMethod = thisType.GetMethod("on" + stateName + "Entered");
+		MethodInfo theMethod = thisType.GetMethod("On" + stateName + "Entered");
 		if (theMethod != null) {
 			theMethod.Invoke(handlerObject, null);
 		}
@@ -48,7 +48,7 @@ public class StateMachineController : MonoBehaviour {
 		Type thisType = handlerObject.GetType();
 
 		stateName = char.ToUpper(stateName[0]) + stateName.Substring(1);
-		MethodInfo theMethod = thisType.GetMethod("on" + stateName + "Exited");
+		MethodInfo theMethod = thisType.GetMethod("On" + stateName + "Exited");
 		if (theMethod != null) {
 			theMethod.Invoke(handlerObject, null);
 		}

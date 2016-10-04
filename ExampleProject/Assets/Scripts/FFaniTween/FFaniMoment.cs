@@ -14,8 +14,28 @@ public class FFaniPropertyChange {
 }
 
 public class FFaniActivationChange : FFaniPropertyChange {
-	public GameObject target;
-	public bool active;
+	private GameObject _target;
+	private bool _active;
+
+	public GameObject target {
+		get {
+			return _target;
+		}
+		set {
+			_target = value;
+			property = FFaniProperty.CreateMember(_target, "active");
+		}
+	}
+
+	public bool active {
+		get {
+			return _active;
+		}
+		set {
+			_active = value;
+			this.value = _active;
+		}
+	}
 
 	override public void Activate() {
 		target.SetActive(active);
@@ -183,6 +203,10 @@ public class MomentBehaviour : MonoBehaviour {
 			return currentMoment.name;
 		}
 		set {
+			if (currentMoment.name == value) {
+				return;
+			}
+			
 			string prevMoment = currentMoment.name;
 			currentMoment = moments[value];
 
@@ -227,7 +251,7 @@ public class MomentBehaviour : MonoBehaviour {
 	}
 
 	public void OnMomentMationStopped() {
-		Debug.Log("OnMomentMationStopped");
+		//Debug.Log("OnMomentMationStopped");
 	}
 
 	public FFaniMomentMation FindMomentMation(string from, string to) {
