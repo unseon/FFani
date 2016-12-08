@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System;
 
 public class FFaniSignal {
+	public string name;
+
 	public Action action;
 
 	public void connect(Action act) {
@@ -19,6 +21,7 @@ public class FFaniSignal {
 	}
 
 	public void emit() {
+		Debug.Log("Signal emit: " + name);
 		if (action != null) {
 			action();
 		}
@@ -38,6 +41,12 @@ public class FFaniSignalTransition {
 	FFaniSignal signal;
 
 	public void trigger() {
+
+		if (source.stateMachine.activeState == null) {
+			target.enterInitState();
+			return;
+		} 
+
 		// exit from bottom
 		FFaniState anc = findCommonAncestor();
 
@@ -212,6 +221,7 @@ public class FFaniState {
 		// propagate enter method to first child
 		if (state.children.Count > 0) {
 			state = state.children[0];
+			stateMachine.activeState = state;
 			state.enter();
 		} else {
 			stateMachine.activeState = this;
@@ -262,6 +272,7 @@ public class FFaniState {
 
 	public FFaniSignal addSignal(string signalName) {
 		FFaniSignal signal = new FFaniSignal();
+		signal.name = signalName;
 		signals.Add(signalName, signal);
 
 		return signal;
