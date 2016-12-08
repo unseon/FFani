@@ -50,6 +50,7 @@ public class FFaniManager : MonoBehaviour {
 		while(animList.Count > 0) {
 			Tick();
 			yield return null;
+			Debug.Log("AnimList Count : " + animList.Count);
 		}
 		
 		isPlaying = false;
@@ -58,6 +59,7 @@ public class FFaniManager : MonoBehaviour {
 	
 	private void Tick() {
 		float dt = Time.deltaTime;
+
 		for(int i = 0; i < animList.Count; i++) {
 			FFaniMation anim = animList[i];
 			anim.Update(dt);

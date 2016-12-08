@@ -60,7 +60,7 @@ public class FFaniParallelAnimation : FFaniGroupAnimation {
 		}
 
 		if (runningAnimList.Count == 0) {
-			state = "completed";
+			state = "arrived";
 		}
 	}
 }
@@ -99,7 +99,7 @@ public class FFaniSerialAnimation : FFaniGroupAnimation {
 				currentAnim.Update(0.0f);
 
 			} else {
-				state = "completed";
+				state = "arrived";
 				break;
 			}
 		}

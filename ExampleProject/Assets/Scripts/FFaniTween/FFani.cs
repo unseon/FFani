@@ -30,6 +30,7 @@ public class FFani {
 	                                , object to = null
 	                                , object from = null
 	                                , float duration = 0.5f
+									, int loop = 1
 	                                , float delay = 0.0f
 	                                , FFaniMation.EasingCurve easingCurve = null
 	                                , bool isDebug = false)
@@ -40,6 +41,7 @@ public class FFani {
 		anim.from = from;
 		anim.to = to;
 		anim.duration = duration;
+		anim.loop = loop;
 		anim.delay = delay;
 		anim.isDebug = isDebug;
 		
@@ -92,6 +94,17 @@ public class FFani {
 			serial.Add (anims[i]);
 		}
 		
+		return serial;
+	}
+
+	public static FFaniSerialAnimation SerialLoop (int loop, params FFaniMation[] anims) {
+		FFaniSerialAnimation serial = new FFaniSerialAnimation();
+		serial.loop = loop;
+
+		for (int i = 0; i < anims.Length; i++) {
+			serial.Add (anims[i]);
+		}
+
 		return serial;
 	}
 	

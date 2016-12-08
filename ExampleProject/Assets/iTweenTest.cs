@@ -19,14 +19,16 @@ public class iTweenTest : MonoBehaviour {
 		}
 
 		Hashtable ht = new Hashtable();
-		ht.Add ("x", 50);
+		ht.Add ("x", 5);
 		ht.Add ("time", animationTime);
+		ht.Add ("looptype", iTween.LoopType.pingPong);
 
 		for (int i = 0; i < cubeCount; i++) {
 
 			if (i == cubeCount -1) {
 				ht.Add ("oncompletetarget", this.gameObject);
 				ht.Add ("oncomplete", "OnFinish");
+
 			}
 
 			iTween.MoveTo(objectList[i], ht);

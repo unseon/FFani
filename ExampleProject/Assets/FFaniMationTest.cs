@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class FFaniMationTest : MonoBehaviour {
-	public int cubeCount = 10000;
+	public int cubeCount = 1;
 	public float animationTime = 5.0f;
 
 	// Use this for initialization
@@ -20,23 +20,30 @@ public class FFaniMationTest : MonoBehaviour {
 
 		for (int i = 0; i < cubeCount; i++) {
 
-			if (i == cubeCount -1) {
+			FFaniMation anim = FFani.SerialLoop(
+				0,
 				FFani.Tween (
 					target: objectList[i].GetComponent<Transform>(),
 					propertyName: "px",
-					to: 50,
+					to: 10,
 					duration: animationTime
-				).Remind (
-					()=>{OnFinish ();}
-				).Start ();
-			}
+				),
+				FFani.Tween (
+					target: objectList[i].GetComponent<Transform>(),
+					propertyName: "px",
+					to: 0,
+					duration: animationTime
+				)
+			);
 
-			FFani.Tween (
-				target: objectList[i].GetComponent<Transform>(),
-				propertyName: "px",
-				to: 50,
-				duration: animationTime
-			).Start ();
+
+			if (i == cubeCount -1) {
+				anim.Remind (
+					()=>{OnFinish ();
+					}
+				);
+			}
+			anim.Start ();
 		}
 	}
 	

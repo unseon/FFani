@@ -359,6 +359,8 @@ public class FFaniMation {
 
 	public bool isDebug = false;
 
+	public int loop = 1;
+
 
 	// Use this for initialization
 	public void Start () {
@@ -484,18 +486,44 @@ public class FFaniMation {
 		if (state == "playing") {
 			OnUpdatePlay(dt);
 			if (duration != -1 && currentTime >= duration) {
+				if (loop == 0) {
+					currentTime -= duration;
+					Init();
+					OnUpdatePlay(currentTime);
+				} else if (loop > 1) {
+					loop--;
+					currentTime -= duration;
+					Init();
+					OnUpdatePlay(currentTime);
+				} else {
+					state = "completed";
+				}
+			} 
+		}
+
+		if (state == "arrived") {
+			if (loop == 0) {
+				state = "playing";
+				Init();
+				OnUpdatePlay(0.0f);
+			} else if (loop > 1) {
+				loop--;
+				state = "playing";
+				Init();
+				OnUpdatePlay(0.0f);
+			} else {
 				state = "completed";
 			}
+		}
 
-			if (state == "completed") {
-				if (instantCallback != null) {
-					instantCallback();
-					instantCallback = null;
-				}
+		if (state == "completed") {
+			if (instantCallback != null) {
+				instantCallback();
+				instantCallback = null;
+			}
 
-				if (onCompleted != null) {
-					onCompleted();
-				}
+			if (onCompleted != null) {
+				onCompleted();
 			}
 		}
 	}
