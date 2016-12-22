@@ -3,26 +3,126 @@
     "objectName": "stateMachine",
     "type": "StateMachine",
     "signals": [
-        "machineTest"
+        "started",
+        "fadeInFinished",
+        "encounted",
+        "enemyKilled",
+        "playerKilled",
+        "playerTurnFinished",
+        "enemyTurnFinished",
+        "enemyRemoved"
     ],
     "children": [
         {
-            "id": "state",
-            "objectName": "state",
+            "id": "entry",
+            "objectName": "entry",
             "type": "State",
             "transitions": [
                 {
                     "id": "",
                     "objectName": "",
-                    "targetState": "state1",
+                    "targetState": "fadeIn",
                     "type": "SignalTransition",
-                    "signalName": "machineTest"
+                    "signalName": "started"
                 }
             ]
         },
         {
-            "id": "state1",
-            "objectName": "state1",
+            "id": "fadeIn",
+            "objectName": "fadeIn",
+            "type": "State",
+            "transitions": [
+                {
+                    "id": "",
+                    "objectName": "",
+                    "targetState": "proceeding",
+                    "type": "SignalTransition",
+                    "signalName": "fadeInFinished"
+                }
+            ]
+        },
+        {
+            "id": "proceeding",
+            "objectName": "proceeding",
+            "type": "State",
+            "transitions": [
+                {
+                    "id": "",
+                    "objectName": "",
+                    "targetState": "fighting",
+                    "type": "SignalTransition",
+                    "signalName": "encounted"
+                }
+            ]
+        },
+        {
+            "id": "enemyKilled",
+            "objectName": "enemyKilled",
+            "type": "State",
+            "transitions": [
+                {
+                    "id": "",
+                    "objectName": "",
+                    "targetState": "proceeding",
+                    "type": "SignalTransition",
+                    "signalName": "enemyRemoved"
+                }
+            ]
+        },
+        {
+            "id": "fighting",
+            "objectName": "fighting",
+            "type": "State",
+            "children": [
+                {
+                    "id": "playerTurn",
+                    "objectName": "playerTurn",
+                    "type": "State",
+                    "transitions": [
+                        {
+                            "id": "",
+                            "objectName": "",
+                            "targetState": "enemyTurn",
+                            "type": "SignalTransition",
+                            "signalName": "playerTurnFinished"
+                        }
+                    ]
+                },
+                {
+                    "id": "enemyTurn",
+                    "objectName": "enemyTurn",
+                    "type": "State",
+                    "transitions": [
+                        {
+                            "id": "",
+                            "objectName": "",
+                            "targetState": "playerTurn",
+                            "type": "SignalTransition",
+                            "signalName": "enemyTurnFinished"
+                        }
+                    ]
+                }
+            ],
+            "transitions": [
+                {
+                    "id": "",
+                    "objectName": "",
+                    "targetState": "gameOver",
+                    "type": "SignalTransition",
+                    "signalName": "playerKilled"
+                },
+                {
+                    "id": "",
+                    "objectName": "",
+                    "targetState": "enemyKilled",
+                    "type": "SignalTransition",
+                    "signalName": "enemyKilled"
+                }
+            ]
+        },
+        {
+            "id": "gameOver",
+            "objectName": "gameOver",
             "type": "State"
         }
     ]

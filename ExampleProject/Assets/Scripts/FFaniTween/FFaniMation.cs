@@ -364,6 +364,9 @@ public class FFaniMation {
 
 	// Use this for initialization
 	public void Start () {
+		if (state == "playing")
+			Stop();
+
 		if (delay > 0.0f) {
 			state = "delaying";
 			currentTime = - delay;
@@ -404,7 +407,7 @@ public class FFaniMation {
 
 	public void Stop() {
 		//Debug.Log ("Stopped");
-		//FFaniManager.Instance().Stop(this);
+		FFaniManager.Instance().Stop(this);
 		state = "stopped";
 
 		if (instantCallback != null) {

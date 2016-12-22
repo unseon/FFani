@@ -229,7 +229,7 @@ public class FFaniState {
 	}
 
 	public void enterCurrent() {
-		Debug.Log("state - " + name + " entered");
+		//Debug.Log("state - " + name + " entered");
 		connectTransitions();
 		active = true;
 		onEntered();
@@ -237,7 +237,7 @@ public class FFaniState {
 	}
 
 	public void exit() {
-		Debug.Log("state - " + name + " exited");
+		//Debug.Log("state - " + name + " exited");
 		disconnectTransitions();
 		active = false;
 		onExited();

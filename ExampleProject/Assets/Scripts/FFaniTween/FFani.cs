@@ -266,11 +266,12 @@ public class FFani {
 		return mmation;
 	}
 
-	public static FFaniMecanimState MecanimState (Animator target, string stateName, float fadeTime = 0.0f) {
+	public static FFaniMecanimState MecanimState (Animator target, string stateName, float fadeTime = 0.0f, bool block = true) {
 		FFaniMecanimState mstate = new FFaniMecanimState();
 		mstate.target = target;
 		mstate.stateName = stateName;
 		mstate.fadeTime = fadeTime;
+		mstate.block = block;
 
 		return mstate;
 	}

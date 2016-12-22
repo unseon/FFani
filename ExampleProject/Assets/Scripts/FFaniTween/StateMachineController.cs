@@ -12,22 +12,12 @@ public class StateMachineController : MonoBehaviour {
 	public Component handlerObject;
     public Dictionary<string, FFaniSignal> signals;
 
-
-	virtual public void Init()
-	{
-
-	}
-
 	void Awake () {
 		stateMachine = parser.Parse(jsonFile.text);
         signals = stateMachine.signals;
 	}
 	// Use this for initialization
 	void Start () {
-		if (handlerObject == null) {
-			handlerObject = this;
-		}
-
 		if (stateMachine != null && handlerObject != null) {
 			stateMachine.onStateEntered = onStateEntered;
 			stateMachine.onStateExited = onStateExited;
